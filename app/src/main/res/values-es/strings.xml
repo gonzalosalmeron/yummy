@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">yummy</string>
+    <string name="reg_google">Registrarse con Google</string>
+    <string name="reg_facebook">Registrarse con Facebook</string>
+    <string name="reg_email">Registrarse con un Email</string>
+    <string name="already_registered">¿Ya tienes cuenta?</string>
+    <string name="create_recipe">Crear Receta</string>
+</resources>

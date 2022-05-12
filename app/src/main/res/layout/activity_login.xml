@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".auth.LoginActivity">
+
+    <ImageButton
+        android:id="@+id/lgn_back_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleX="1.2"
+        android:scaleY="1.2"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="30dp"
+        android:background="@color/transparent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_back_button"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/login_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="Sign in"
+        android:fontFamily="@font/rubik_medium"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.055"
+        app:layout_constraintStart_toEndOf="@+id/lgn_back_btn"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/lgn_google_btn"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:text="@string/reg_google"
+        app:strokeColor="@color/black"
+        android:textColor="@color/black"
+        android:layout_marginTop="50dp"
+        android:paddingVertical="8dp"
+        app:icon="@drawable/google"
+        app:cornerRadius="14dp"
+        app:iconTint="@color/transparent"
+        app:iconTintMode="add"
+        app:iconSize="26dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_title" />
+
+    <Button
+        android:id="@+id/lgn_facebook_btn"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:text="@string/reg_facebook"
+        app:strokeColor="@color/black"
+        android:textColor="@color/black"
+        android:layout_marginTop="10dp"
+        android:paddingVertical="8dp"
+        app:icon="@drawable/facebook"
+        app:cornerRadius="14dp"
+        app:iconTint="@color/transparent"
+        app:iconTintMode="add"
+        app:iconSize="26dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lgn_google_btn" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="------------- or with your email -------------"
+        android:fontFamily="@font/rubik_medium"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/lgn_facebook_btn"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/login_email_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email"
+        android:layout_marginTop="120dp"
+        android:layout_marginHorizontal="40dp"
+        app:endIconMode="clear_text"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/lgn_facebook_btn">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/login_email_input_ed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:inputType="textEmailAddress"
+            android:text="pepe@pepe.com" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/login_password_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:layout_marginTop="30dp"
+        android:layout_marginHorizontal="40dp"
+        app:endIconMode="password_toggle"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/login_email_input">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/login_password_input_ed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:inputType="textPassword"
+            android:text="secret"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/login_submit_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="40dp"
+        android:text="Login"
+        app:cornerRadius="14dp"
+        android:backgroundTint="@color/yummy_green"
+        android:paddingVertical="10dp"
+        android:textColor="@color/black"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

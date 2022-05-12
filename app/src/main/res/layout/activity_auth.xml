@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".auth.AuthActivity">
+
+    <TextView
+        android:id="@+id/reg_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:fontFamily="@font/yeseva_one"
+        android:freezesText="false"
+        android:text="yummy!"
+        android:textColor="@color/black"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/reg_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:fontFamily="@font/rubik"
+        android:text="@string/auth_text"
+        android:paddingHorizontal="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reg_title" />
+
+    <Button
+        android:id="@+id/reg_google_btn"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:text="@string/reg_google"
+        app:strokeColor="@color/black"
+        android:textColor="@color/black"
+        android:layout_marginTop="40dp"
+        android:paddingVertical="8dp"
+        app:icon="@drawable/google"
+        app:cornerRadius="14dp"
+        app:iconTint="@color/transparent"
+        app:iconTintMode="add"
+        app:iconSize="26dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reg_text" />
+
+    <Button
+        android:id="@+id/reg_facebook_btn"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:text="@string/reg_facebook"
+        app:strokeColor="@color/black"
+        android:textColor="@color/black"
+        android:layout_marginTop="10dp"
+        android:paddingVertical="8dp"
+        app:icon="@drawable/facebook"
+        app:cornerRadius="14dp"
+        app:iconTint="@color/transparent"
+        app:iconTintMode="add"
+        app:iconSize="26dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reg_google_btn" />
+
+    <Button
+        android:id="@+id/reg_email_btn"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="30dp"
+        android:text="@string/reg_email"
+        app:strokeColor="@color/black"
+        android:textColor="@color/black"
+        android:layout_marginTop="10dp"
+        android:paddingVertical="8dp"
+        app:icon="@drawable/email"
+        app:cornerRadius="14dp"
+        app:iconTint="@color/transparent"
+        app:iconTintMode="add"
+        app:iconSize="26dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reg_facebook_btn" />
+
+    <Button
+        android:id="@+id/reg_login_btn"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="36dp"
+        android:fontFamily="@font/rubik_medium"
+        android:text="@string/already_registered"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
