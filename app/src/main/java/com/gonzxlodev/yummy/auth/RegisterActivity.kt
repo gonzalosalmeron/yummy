@@ -1,8 +1,10 @@
 package com.gonzxlodev.yummy.auth
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import com.gonzxlodev.yummy.databinding.ActivityLoginBinding
 import com.gonzxlodev.yummy.databinding.ActivityRegisterBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -35,6 +37,9 @@ class RegisterActivity : AppCompatActivity() {
                 auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
                     if (it.isSuccessful) {
                         Toast.makeText(this, "Register succesful", Toast.LENGTH_LONG).show()
+                        var intent = Intent(this,LoginActivity::class.java)
+                        startActivity(intent)
+                        finish()
                     } else {
                         Toast.makeText(this, "Ooops, something failed, try again later", Toast.LENGTH_LONG).show()
                     }
@@ -46,4 +51,5 @@ class RegisterActivity : AppCompatActivity() {
             Toast.makeText(this, "Please, fill all the camps", Toast.LENGTH_LONG).show()
         }
     }
+
 }

@@ -26,4 +26,6 @@
     <string name="logout">Logout</string>
     <string name="prefs_file">com.gonzxlodev.yummy.PREFERENCE_FILE_KEY</string>
     <string name="default_web_client_id_2" translatable="false">602381728354-rckoig89vnekv0an72apkprvmdrjccc7.apps.googleusercontent.com</string>
+    <string name="lgn_google">Login with Google</string>
+    <string name="lgn_facebook">Login with Facebook</string>
 </resources>
