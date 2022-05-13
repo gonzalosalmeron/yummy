@@ -58,10 +58,10 @@ Para iniciar sesión deberás crearte un usuario con tus credenciales <br>
 
 ### Subida de recetas, Lista de compra y Perfil
 <div style="flex">
-  <img src="media/9.png" width="200">
-  <img src="media/10.png" width="200">
-  <img src="media/11.png" width="200">
-  <img src="media/12.png" width="200">
+  <img src="media/9.png" width="150">
+  <img src="media/10.png" width="150">
+  <img src="media/11.png" width="150">
+  <img src="media/12.png" width="150">
 </div>
 
 ## 🎮 Progreso
