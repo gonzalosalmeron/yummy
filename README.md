@@ -64,7 +64,7 @@ Para iniciar sesión deberás crearte un usuario con tus credenciales <br>
   <img src="media/12.png" width="150">
 </div>
 
-## 🎮 Progreso
+## ⏱ Progreso
 
 - Semana 1 -> Maquetación de app con figma y diseño de bd
 - Semana 2 -> Creación de primeras actividades de auth (login y register) y aplicar funcionaliad
