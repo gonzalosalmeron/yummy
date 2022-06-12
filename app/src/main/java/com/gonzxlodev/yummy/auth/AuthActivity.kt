@@ -38,6 +38,7 @@ class AuthActivity : AppCompatActivity() {
     private fun goMain(email: String) {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
+        finishAffinity()
     }
 
     private fun session() {

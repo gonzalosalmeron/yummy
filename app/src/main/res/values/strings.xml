@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">yummy</string>
-    <string name="auth_text">You are just one step away from getting the most out of yummy. It won\'t cost you a thing!</string>
+    <string name="auth_text">You are just one step away from getting the most out of <b>yummy</b>. It won\'t cost you a thing!</string>
     <string name="reg_google">Register with Google</string>
     <string name="reg_facebook">Register with Facebook</string>
     <string name="reg_email">Register with your Email</string>
@@ -13,19 +13,55 @@
     <string name="name">Name</string>
     <string name="description">Description</string>
     <string name="select_image">Select Image</string>
-    <string name="upload_recipe">Upload Recipe</string>
+    <string name="upload_recipe">Upload recipe</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_detail">DetailActivity</string>
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="title_activity_detail" translatable="false">DetailActivity</string>
+    <string name="first_fragment_label" translatable="false">First Fragment</string>
+    <string name="second_fragment_label" translatable="false">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="hello_first_fragment" translatable="false">Hello first fragment</string>
+    <string name="hello_second_fragment" translatable="false">Hello second fragment. Arg: %1$s</string>
     <string name="logout">Logout</string>
-    <string name="prefs_file">com.gonzxlodev.yummy.PREFERENCE_FILE_KEY</string>
+    <string name="prefs_file" translatable="false">com.gonzxlodev.yummy.PREFERENCE_FILE_KEY</string>
     <string name="default_web_client_id_2" translatable="false">602381728354-rckoig89vnekv0an72apkprvmdrjccc7.apps.googleusercontent.com</string>
     <string name="lgn_google">Login with Google</string>
     <string name="lgn_facebook">Login with Facebook</string>
+    <string name="search_about_yout_preferences">Search about your preferences</string>
+    <string name="search_view_hint">Search according to your tastes, categories, ingredients</string>
+    <string name="uploads">Recipes</string>
+    <string name="saved">Saved</string>
+    <string name="choose_a_photo_of_your_recipe">Choose a photo of your recipe...</string>
+    <string name="ex_title"><b>Title</b> Ex: Spanish potato omelette</string>
+    <string name="ex_description">
+        Example:\n
+        1 - Fry the potatoes.\n
+        2 - Cut the onion into small pieces.\n
+        3 - Whisk the eggs.
+    </string>
+    <string name="ex_ingredients">
+        Example:\n
+        3 Potatoes\n
+        12 Eggs\n
+        1 Onion
+    </string>
+    <string name="diners">Diners</string>
+    <string name="ex_diners">Ex: 3 servings</string>
+    <string name="total_preparation_time">Total preparation time</string>
+    <string name="ex_time">Ex: 1hr 30mins</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="steps">Steps</string>
+    <string name="upload">Upload</string>
+    <string name="preparation_time">Preparation Time</string>
+    <string name="add_tag">Add a tag</string>
+    <string name="select_from">Select from</string>
+    <string name="my_recipes">My recipes</string>
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="ups_something_failed">Uups something failed</string>
+    <string name="fill_the_camps">Please fill all the camps</string>
+    <string name="recipe_deleted">Recipe deleted</string>
+    <string name="yout_dont_have_any_recipe">You don\'t have recipes</string>
 </resources>

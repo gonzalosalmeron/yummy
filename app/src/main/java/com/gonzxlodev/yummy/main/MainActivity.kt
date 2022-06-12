@@ -6,11 +6,9 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import com.gonzxlodev.yummy.R
-import com.gonzxlodev.yummy.main.HomeFragment
 import com.gonzxlodev.yummy.databinding.ActivityMainBinding
+import com.gonzxlodev.yummy.main.profile.ProfileFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigation.NavigationBarView
-import com.google.android.material.navigation.NavigationBarView.OnItemSelectedListener
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,7 +16,7 @@ class MainActivity : AppCompatActivity() {
     private val HomeFragment = com.gonzxlodev.yummy.main.HomeFragment()
     private val SearchFragment = com.gonzxlodev.yummy.main.SearchFragment()
     private val UploadFragment = com.gonzxlodev.yummy.main.UploadFragment()
-    private val ProfileFragment = com.gonzxlodev.yummy.main.ProfileFragment()
+    private val ProfileFragment = ProfileFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,6 +38,10 @@ class MainActivity : AppCompatActivity() {
                     replaceFragment(SearchFragment)
                 }
                 R.id.nav_upload -> {
+                    item.isCheckable = false
+                    uploadActivity()
+                }
+                R.id.nav_bag -> {
                     replaceFragment(UploadFragment)
                 }
                 R.id.nav_profile -> {
@@ -53,7 +55,7 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-//
+
 //    override fun onBackPressed() {
 //        // Simply Do noting!
 //    }
@@ -65,6 +67,11 @@ class MainActivity : AppCompatActivity() {
             transaction.replace(R.id.nav_container, fragment)
             transaction.commit()
         }
+    }
+
+    private fun uploadActivity() {
+        val intent = Intent(this, UploadActivity::class.java)
+        startActivity(intent)
     }
 
 }

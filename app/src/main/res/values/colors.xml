@@ -10,4 +10,8 @@
     <color name="transparent">#00FFFFFF</color>
     <color name="yummy_green">#BBDBD1</color>
     <color name="yummy_purple">#B6B8D6</color>
+    <color name="yummy_light_brown">#F7F4EE</color>
+    <color name="yummy_brown">#79756C</color>
+    <color name="yummy_gray">#888888</color>
+    <color name="divider_item_decoration">#FFFFFF</color>
 </resources>

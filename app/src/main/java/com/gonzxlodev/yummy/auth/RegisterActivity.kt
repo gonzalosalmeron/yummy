@@ -39,7 +39,7 @@ class RegisterActivity : AppCompatActivity() {
                         Toast.makeText(this, "Register succesful", Toast.LENGTH_LONG).show()
                         var intent = Intent(this,LoginActivity::class.java)
                         startActivity(intent)
-                        finish()
+                        finishAffinity()
                     } else {
                         Toast.makeText(this, "Ooops, something failed, try again later", Toast.LENGTH_LONG).show()
                     }

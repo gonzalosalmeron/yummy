@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".main.profile.MyRecipesFragment">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/my_recipes_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/recipe_card_2"
+        android:listDivider="@drawable/divider_item_decoration"
+        android:visibility="visible"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/my_recipes_no_recipes_box"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/my_recipes_no_recipes"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:src="@drawable/no_recipes"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/my_recipes_no_recipes_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/yout_dont_have_any_recipe"
+            android:fontFamily="@font/rubik_medium"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/my_recipes_no_recipes"
+            app:layout_constraintRight_toRightOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</FrameLayout>

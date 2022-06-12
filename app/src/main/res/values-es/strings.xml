@@ -6,4 +6,45 @@
     <string name="reg_email">Registrarse con un Email</string>
     <string name="already_registered">¿Ya tienes cuenta?</string>
     <string name="create_recipe">Crear Receta</string>
+    <string name="title_home">Principal</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notificaciones</string>
+    <string name="name">Nombre</string>
+    <string name="description">Descripción</string>
+    <string name="select_image">Selecciona una imagen</string>
+    <string name="upload_recipe">Publicar receta</string>
+    <string name="next">Siguiente</string>
+    <string name="previous">Anterior</string>
+    <string name="logout">Cerrar sesión</string>
+    <string name="lgn_google">Iniciar sesión con Google</string>
+    <string name="lgn_facebook">Iniciar sesión con Facebook</string>
+    <string name="search_about_yout_preferences">Busca según tus preferencias</string>
+    <string name="search_view_hint">Busca según tus gustos, categorías e ingredientes</string>
+    <string name="uploads">Recetas</string>
+    <string name="saved">Guardado</string>
+    <string name="choose_a_photo_of_your_recipe">Añade una foto de tu receta hecha...</string>
+    <string name="ex_title"><b>Título.</b> Ej: Tortilla de patatas española</string>
+    <string name="ex_description">
+        Ejemplo:\n
+        1 - Frie las patatas.\n
+        2 - Corta la cebolla en trocitos.\n
+        3 - Bate los huevos.
+    </string>
+    <string name="ex_ingredients">
+        Ejemplo:\n
+        3 Patatas\n
+        12 Huevos\n
+        1 Cebolla
+    </string>
+    <string name="diners">Comensales</string>
+    <string name="ex_diners">Ej: 3 raciones</string>
+    <string name="total_preparation_time">Tiempo total preparación</string>
+    <string name="ex_time">Ej. 1hr 30mins</string>
+    <string name="ingredients">Ingredientes</string>
+    <string name="steps">Pasos</string>
+    <string name="upload">Publicar</string>
+    <string name="preparation_time">Tiempo de preparación</string>
+    <string name="add_tag">Añade un tag</string>
+    <string name="select_from">Elegir desde</string>
+    <string name="my_recipes">Mis recetas</string>
 </resources>

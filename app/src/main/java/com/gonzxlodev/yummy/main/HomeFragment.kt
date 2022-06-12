@@ -1,5 +1,6 @@
 package com.gonzxlodev.yummy.main
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -7,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gonzxlodev.yummy.R
@@ -15,6 +17,7 @@ import com.gonzxlodev.yummy.databinding.FragmentHomeBinding
 import com.gonzxlodev.yummy.model.Recipe
 import com.google.firebase.database.*
 import com.google.firebase.firestore.*
+import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlin.math.log
@@ -43,10 +46,10 @@ class HomeFragment : Fragment() {
 
         recipesArrayList = arrayListOf()
 
-        listAdapter = ListAdapter(recipesArrayList)
+        listAdapter = ListAdapter(recipesArrayList, activity as Context)
 
         homeRecyclerView.apply {
-            layoutManager = LinearLayoutManager(activity)
+            layoutManager = GridLayoutManager(activity, 2)
             setHasFixedSize(true)
             adapter = listAdapter
         }
@@ -56,14 +59,13 @@ class HomeFragment : Fragment() {
 
     private fun EventChangeListener() {
         db = FirebaseFirestore.getInstance()
-        db.collection("recipes")
+        db.collection("recipes").orderBy("created_at", Query.Direction.DESCENDING)
             .addSnapshotListener(object: EventListener<QuerySnapshot>{
                 override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
                     if (error != null) {
                         Log.i("Firestore error", error.message.toString())
                         return
                     }
-
                     for (dc :DocumentChange in value?.documentChanges!!){
                         if (dc.type == DocumentChange.Type.ADDED){
                             recipesArrayList.add(dc.document.toObject(Recipe::class.java))

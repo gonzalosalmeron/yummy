@@ -1,23 +1,27 @@
 package com.gonzxlodev.yummy.main
 
 import android.app.Activity
-import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.gonzxlodev.yummy.R
 import com.gonzxlodev.yummy.databinding.FragmentUploadBinding
-import com.gonzxlodev.yummy.shared.LoadingDialog
+import com.gonzxlodev.yummy.model.Category
+import com.google.android.material.chip.Chip
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.*
+import com.google.firebase.firestore.EventListener
 import com.google.firebase.storage.FirebaseStorage
 import java.util.*
 
@@ -29,6 +33,8 @@ class UploadFragment : Fragment() {
 
     private var selectedPhotoUri: Uri? = null
     private var user: FirebaseUser? = null
+    private lateinit var categoriesArrayList: ArrayList<Category>
+    private var category: String? = null
 
     private val db = FirebaseFirestore.getInstance()
 
@@ -43,20 +49,31 @@ class UploadFragment : Fragment() {
     override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
         super.onViewCreated(itemView, savedInstanceState)
 
-        /** gets the current logged user */
+        /** GETS THE CURRENT USER */
         user = FirebaseAuth.getInstance().currentUser
         user.let {
             val email = user?.email
         }
-        
-        binding.uploadImageBtn.setOnClickListener {
+
+        /** GET AND SET CATEGORIES */
+        categoriesArrayList = arrayListOf()
+        getAndSetCategories()
+
+        binding.chooseImageView.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "image/*"
             startActivityForResult(intent, 0)
         }
 
         binding.uploadUploadBtn.setOnClickListener {
-            this.uploadImageToFirebaseStorage()
+            var name = binding.uploadNameEd.text.toString().trim()
+            var description = binding.uploadDescriptionEd.text.toString().trim()
+
+            if (name.isNotEmpty() && description.isNotEmpty()) {
+                this.uploadImageToFirebaseStorage()
+            } else {
+                Toast.makeText(activity, "Please fill all the camps", Toast.LENGTH_LONG).show()
+            }
         }
     }
 
@@ -65,6 +82,8 @@ class UploadFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == 0 && resultCode == Activity.RESULT_OK && data != null) {
+            binding.choosenImgImg.visibility = View.INVISIBLE
+            binding.choosenImgText.visibility = View.INVISIBLE
             selectedPhotoUri = data.data
             binding.chooseImageView.setImageURI(selectedPhotoUri)
         }
@@ -78,6 +97,9 @@ class UploadFragment : Fragment() {
             val filename = UUID.randomUUID().toString()
             val ref = FirebaseStorage.getInstance().getReference("/images/$filename")
 
+            binding.uploadProgressBar.visibility = View.VISIBLE
+            binding.uploadProgressBar.isIndeterminate = true
+
             ref.putFile(selectedPhotoUri!!)
                 .addOnSuccessListener {
                     ref.downloadUrl.addOnSuccessListener {
@@ -89,36 +111,72 @@ class UploadFragment : Fragment() {
 
     }
 
-    /** saves recipe in firestore */
     private fun saveRecipeToFireStoreDatabase(imgUrl: String) {
-        var name = binding.uploadNameEd.text.toString().trim()
-        var description = binding.uploadDescriptionEd.text.toString().trim()
+        db.collection("recipes").add(
+            hashMapOf(
+                "name" to binding.uploadNameEd.text.toString().trim().capitalize(),
+                "ingredients" to binding.uploadIngredientsEd.text.toString().trim(),
+                "diners" to binding.uploadDinersEd.text.toString().trim(),
+                "preparation_time" to binding.uploadTimeEd.text.toString().trim(),
+                "description" to binding.uploadDescriptionEd.text.toString().trim(),
+                "tag" to category,
+                "imgUrl" to imgUrl,
+                "user_email" to user!!.email,
+                "created_at" to FieldValue.serverTimestamp()
+            )
 
-        if (name.length > 0 && description.length > 0) {
-            binding.uploadProgressBar.visibility = View.VISIBLE
-            binding.uploadProgressBar.isIndeterminate = true
-            db.collection("recipes").add(
-                hashMapOf(
-                    "user_email" to user!!.email,
-                    "name" to name,
-                    "description" to description,
-                    "imgUrl" to imgUrl
-                )
-            ).addOnSuccessListener { taskSnapshot ->
-                val handler = Handler()
-                handler.postDelayed({
-                    binding.uploadProgressBar.visibility = View.VISIBLE
-                    binding.uploadProgressBar.isIndeterminate = false
-                    binding.uploadProgressBar.progress = 0
-                }, 500)
-                Toast.makeText(activity, "Recipe uploaded!", Toast.LENGTH_LONG).show()
-                name = ""
-                description = ""
-                binding.chooseImageView.setImageURI(null)
-            }
-        } else {
-            Toast.makeText(activity, "Please fill all the camps", Toast.LENGTH_LONG).show()
+        ).addOnSuccessListener { taskSnapshot ->
+            binding.uploadProgressBar.visibility = View.INVISIBLE
+            binding.uploadProgressBar.isIndeterminate = false
+
+            Snackbar.make(binding.root, "Recipe uploaded!", Snackbar.LENGTH_LONG).show()
+            binding.uploadNameEd.setText("")
+            binding.uploadIngredientsEd.setText("")
+            binding.uploadDinersEd.setText("")
+            binding.uploadTimeEd.setText("")
+            binding.uploadDescriptionEd.setText("")
+//            chip
+            binding.chooseImageView.setImageURI(null)
         }
+    }
+
+    /** GET AND SET CATEGORIES MATERIAL UI CHIPS */
+    private fun getAndSetCategories() {
+        db.collection("categories").orderBy("name", Query.Direction.DESCENDING)
+            .addSnapshotListener(object: EventListener<QuerySnapshot> {
+                override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
+                    if (error != null) {
+                        Log.i("Firestore error", error.message.toString())
+                        return
+                    }
+                    for (dc : DocumentChange in value?.documentChanges!!){
+                        if (dc.type == DocumentChange.Type.ADDED){
+                            categoriesArrayList.add(dc.document.toObject(Category::class.java))
+                        }
+                    }
+                    for (category in categoriesArrayList) {
+                        binding.uploadChipgroup
+                            .addView(createTagChip(activity as AppCompatActivity, category.name!!))
+                    }
+                }
+
+            })
+    }
+
+    /** CUSTOM METHOD FOR CREATE CHIPS DINAMICALLY */
+    private fun createTagChip(context: Context, chipName: String): Chip {
+        return Chip(context).apply {
+            text = chipName
+            setChipBackgroundColorResource(R.color.yummy_green)
+            isCloseIconVisible = false
+            isCheckable = true
+            setTextColor(ContextCompat.getColor(context, R.color.black))
+//            setTextAppearance(R.style.ChipTextAppearance)
+            setOnClickListener {
+                category = chipName
+            }
+        }
+
     }
 
     override fun onDestroyView() {
