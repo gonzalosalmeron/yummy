@@ -1,8 +1,6 @@
 package com.gonzxlodev.yummy.main
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -14,29 +12,22 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import com.gonzxlodev.yummy.R
-import com.gonzxlodev.yummy.adapter.ListAdapter
-import com.gonzxlodev.yummy.adapter.MyRecipesAdapter
 import com.gonzxlodev.yummy.databinding.ActivityUploadBinding
-import com.gonzxlodev.yummy.databinding.FragmentUploadBinding
 import com.gonzxlodev.yummy.model.Category
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.robertlevonyan.components.picker.*
-import io.grpc.InternalChannelz.id
 import java.util.*
 
 class UploadActivity : AppCompatActivity() {
 
-    /** variables */
+    /** VARIABLES */
     private lateinit var binding: ActivityUploadBinding
 
     private var selectedPhotoUri: Uri? = null
-    private var user: FirebaseUser? = null
     private lateinit var categoriesArrayList: ArrayList<Category>
     private var category: String? = null
 
@@ -49,13 +40,7 @@ class UploadActivity : AppCompatActivity() {
 
         binding.uploadCloseBtn.setOnClickListener { finish() }
 
-        /** GETS THE CURRENT USER */
-        user = FirebaseAuth.getInstance().currentUser
-        user.let {
-            val email = user?.email
-        }
-
-        /** GET AND SET CATEGORIES */
+        /** RECOGE Y ESTABLECE TODAS LAS CATEGORÍAS EXISTENTES */
         categoriesArrayList = arrayListOf()
         getAndSetCategories()
 
@@ -77,7 +62,7 @@ class UploadActivity : AppCompatActivity() {
 
     }
 
-    /** starts the process of selecting the img */
+    /** EMPIEZA EL PROCESO DE SELECCIÓN DE LA IMAGEN */
     private fun startImagePicker(){
         pickerDialog {
             setTitle(R.string.select_from)
@@ -101,7 +86,7 @@ class UploadActivity : AppCompatActivity() {
         }.show()
     }
 
-    /** sets the choosen img */
+    /** ESTABLECE LA IMAGEN SELECCIONADA EN UNA VARIABLE PARA SU POSTERIOR USO */
     private fun setChoosenImg(uri: Uri){
         binding.choosenImgImg.visibility = View.INVISIBLE
         binding.choosenImgText.visibility = View.INVISIBLE
@@ -109,7 +94,8 @@ class UploadActivity : AppCompatActivity() {
         binding.chooseImageView.setImageURI(selectedPhotoUri)
     }
 
-    /** uploads the image and returns the url to continue the process */
+    /** SUBE LA IMAGEN A FIREBASE FIRESTORAGE Y DEVUELVE LA URI DE LA IMAGEN
+     * PARA PODER CONTINUAR CON EL PROCESO */
     private fun uploadImageToFirebaseStorage() {
         if (selectedPhotoUri == null){
             Toast.makeText(this, "Please select an image first", Toast.LENGTH_LONG).show()
@@ -131,6 +117,7 @@ class UploadActivity : AppCompatActivity() {
         }
     }
 
+    /** GUARDA TODOS LOS DATOS DE LA RECETA EN FIRESTORE */
     private fun saveRecipeToFireStoreDatabase(imgUrl: String) {
         db.collection("recipes").add(
             hashMapOf(
@@ -141,7 +128,7 @@ class UploadActivity : AppCompatActivity() {
                 "description" to binding.uploadDescriptionEd.text.toString().trim(),
                 "tag" to category,
                 "imgUrl" to imgUrl,
-                "user_email" to user!!.email,
+                "user_email" to getEmail(),
                 "created_at" to FieldValue.serverTimestamp()
             )
 
@@ -153,7 +140,7 @@ class UploadActivity : AppCompatActivity() {
         }
     }
 
-    /** GET AND SET CATEGORIES MATERIAL UI CHIPS */
+    /** RECOGE TODAS LAS CATEGORÍAS Y LAS ESTABLECE EN CHIPS DE MATERIAL DESIGN */
     private fun getAndSetCategories() {
         db.collection("categories").orderBy("name", Query.Direction.DESCENDING)
             .addSnapshotListener(object: EventListener<QuerySnapshot> {
@@ -176,7 +163,7 @@ class UploadActivity : AppCompatActivity() {
             })
     }
 
-    /** CUSTOM METHOD FOR CREATE CHIPS DINAMICALLY */
+    /** ESTE MÉTODO CREA UN CHIP */
     private fun createTagChip(chipName: String): Chip {
         return Chip(this).apply {
             text = chipName
@@ -184,11 +171,18 @@ class UploadActivity : AppCompatActivity() {
             isCloseIconVisible = false
             isCheckable = true
             setTextColor(ContextCompat.getColor(context, R.color.black))
-//            setTextAppearance(R.style.ChipTextAppearance)
             setOnClickListener {
                 category = chipName
             }
         }
 
+    }
+
+    /** RECOGE EL EMAIL DE LAS SHARED PREFERENCES */
+    fun getEmail(): String {
+        val prefs = getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)
+        val email = prefs?.getString("email", null)
+
+        return email.toString()
     }
 }

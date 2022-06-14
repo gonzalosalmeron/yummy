@@ -22,17 +22,15 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.firestore.*
 import kotlinx.android.synthetic.main.fragment_my_recipes.*
 import androidx.recyclerview.widget.LinearLayoutManager
-
-
+import com.gonzxlodev.yummy.main.MainActivity
 
 
 class MyRecipesFragment : Fragment() {
 
-    /** variables */
+    /** VARIABLES */
     private var _binding: FragmentMyRecipesBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var dbref: DatabaseReference
     private lateinit var recipesArrayList: ArrayList<Recipe>
     private lateinit var listAdapter: MyRecipesAdapter
     private lateinit var db: FirebaseFirestore
@@ -48,6 +46,7 @@ class MyRecipesFragment : Fragment() {
     override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
         super.onViewCreated(itemView, savedInstanceState)
 
+        /** INICIALIZAMOS EL ARRAY Y EL ADAPTADOR */
         recipesArrayList = arrayListOf()
         val myRecipesFragment = com.gonzxlodev.yummy.main.profile.MyRecipesFragment()
         listAdapter = MyRecipesAdapter(recipesArrayList, activity as Context, myRecipesFragment)
@@ -57,6 +56,7 @@ class MyRecipesFragment : Fragment() {
             setHasFixedSize(false)
             adapter = listAdapter
 
+            /** SEPARA LAS COLUMNAS Y FILAS CON UNA LÍNEA DE COLOR BLANCO */
             val dividerItemDecorationVertical = DividerItemDecoration(
                 context,
                 LinearLayoutManager.VERTICAL
@@ -75,39 +75,41 @@ class MyRecipesFragment : Fragment() {
             addItemDecoration(dividerItemDecorationVertical)
         }
 
-        EventChangeListener()
+        eventChangeListener()
     }
 
-    private fun EventChangeListener() {
+    /** LLAMADA A FIREBASE PARA CARGAR LAS RECETAS DEL USUARIO ACTUALMENTE LOGUEADO */
+    private fun eventChangeListener() {
         db = FirebaseFirestore.getInstance()
         db.collection("recipes").orderBy("created_at", Query.Direction.DESCENDING)
-            .whereEqualTo("user_email", getEmail())
+            .whereEqualTo("user_email", (activity as MainActivity).getEmail())
             .addSnapshotListener(object: EventListener<QuerySnapshot> {
                 override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
                     if (error != null) {
                         Log.i("Firestore error", error.message.toString())
                         return
                     }
-                    for (dc : DocumentChange in value?.documentChanges!!){
+                    for (dc : DocumentChange in value?.documentChanges!!) {
                         if (dc.type == DocumentChange.Type.ADDED){
                             var recipe = dc.document.toObject(Recipe::class.java)
                             recipe.id = dc.document.id
                             recipesArrayList.add(recipe)
+                            listAdapter.notifyItemInserted(recipesArrayList.size)
                         }
                     }
-                    listAdapter.notifyDataSetChanged()
+
+//                    recipesArrayList.reverse()
+                    Log.i("testing", "${recipesArrayList}")
+
+                    /** SI NO HAY RECETAS SE MUESTRA UNA IMÁGEN Y TEXTO INDICÁNDOLO */
+                    if(recipesArrayList.size == 0) {
+                        binding.myRecipesNoRecipesBox.visibility = View.VISIBLE
+                    } else {
+                        binding.myRecipesNoRecipesBox.visibility = View.GONE
+                    }
                 }
             })
 
-        if(recipesArrayList.size == 0) {
-            binding.myRecipesNoRecipesBox.visibility = View.VISIBLE
-        }
     }
 
-    private fun getEmail(): String {
-        val prefs = activity?.getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)
-        val email = prefs?.getString("email", null)
-
-        return email.toString()
-    }
 }

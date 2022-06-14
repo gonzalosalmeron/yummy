@@ -21,6 +21,7 @@ import com.google.firebase.ktx.Firebase
 
 class LoginActivity : AppCompatActivity() {
 
+    /** VARIABLES */
     private lateinit var binding:ActivityLoginBinding
     private lateinit var auth: FirebaseAuth
     private val GOOGLE_SIGN_IN = 100
@@ -31,6 +32,7 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        /** ESTABLECE LOS LISTENERS EN LOS BOTONES */
         binding.lgnBackBtn.setOnClickListener { finish() }
         binding.loginSubmitButton.setOnClickListener{ login() }
         binding.lgnGoogleBtn.setOnClickListener {
@@ -43,6 +45,7 @@ class LoginActivity : AppCompatActivity() {
             startActivityForResult(googleClient.signInIntent, GOOGLE_SIGN_IN)
         }
 
+        /** INICIALIZA FIREBASE AUTH */
         auth = Firebase.auth
 
     }
@@ -50,6 +53,8 @@ class LoginActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        /** SI HEMOS MARCADO INICIAR SESIÓN CON GOOGLE, SE INICIA EL PROCESO DE SELECCIÓN
+         * DE CUENTA DE GOOGLE Y POSTERIORMENTE INICIA SESIÓN */
         if (requestCode == GOOGLE_SIGN_IN) {
             val task = GoogleSignIn.getSignedInAccountFromIntent(data)
 
@@ -72,14 +77,16 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    /** INICIA SESIÓN Y NOS LLEVA A LA MAIN ACTIVITY */
     private fun login() {
         var email = binding.loginEmailInputEd.text.toString()
         var password = binding.loginPasswordInputEd.text.toString()
 
+        /** COMPRUEBA QUE LOS CAMPOS NO ESTÉN VACÍOS E INICIA SESIÓN */
         if (email.isNotEmpty() && password.isNotEmpty()) {
             auth.signInWithEmailAndPassword(email, password).addOnCompleteListener{
                 if(it.isSuccessful) {
-//                    saveUserInLocale(email)
+                    saveUserInLocale(email, null, null)
                     goMain()
                 } else {
                     Toast.makeText(this, R.string.ups_something_failed, Toast.LENGTH_LONG).show()
@@ -90,12 +97,16 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
+    /** NOS LLEVA A LA MAIN ACTIVITY */
     private fun goMain() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finishAffinity()
     }
 
+    /** COMPRUEBA QUE EL USUARIO LOGUEADO NO TENGA UNA CUENTA YA CREADA DENTRO DE LA COLECIÓN
+     * DE USUARIO EN FIREBASE. SI EL USUARIO NO EXISTIESE EN LA COLECIÓN LO CREARÍA, ALMACENANDO
+     * SU NOMBRE, SU CORREO Y SU IMAGEN DE PERFIL DE GOOGLE */
     private fun saveUserToFireStore(name:String, email:String ,imgUrl: Uri) {
         db.collection("users").document(email).get()
             .addOnSuccessListener {
@@ -118,6 +129,7 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
+    /** ALMACENA LOS DATOS DEL USUARIO QUE HA INICIADO SESIÓN EN LAS SHARED PREFERENCES */
     private fun saveUserInLocale(email: String, name: String?, imgUrl: Uri?) {
         val prefs = getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE).edit()
         prefs.putString("email", email)

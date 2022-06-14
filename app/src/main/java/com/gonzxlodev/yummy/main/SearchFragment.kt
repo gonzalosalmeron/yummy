@@ -19,16 +19,9 @@ import kotlinx.android.synthetic.main.fragment_home.*
 
 import android.widget.TextView
 
-
-
-
-
-
-
 class SearchFragment : Fragment() {
 
-
-    private lateinit var dbref: DatabaseReference
+    /** VARIABLES */
     private lateinit var recipesArrayList: ArrayList<Recipe>
     private lateinit var listAdapter: ListAdapter
     private lateinit var db: FirebaseFirestore
@@ -48,6 +41,7 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
         super.onViewCreated(itemView, savedInstanceState)
 
+        /** INICIALIZAMOS EL ARRAY Y EL ADAPTADOR */
         recipesArrayList = arrayListOf()
 
         listAdapter = ListAdapter(recipesArrayList, activity as Context)
@@ -58,11 +52,12 @@ class SearchFragment : Fragment() {
             adapter = listAdapter
         }
 
-        EventChangeListener()
+        eventChangeListener()
 
     }
 
-    private fun EventChangeListener() {
+    /** LLAMAMOS A TODAS LAS RECETAS DE LOS USUARIOS ORDENADAS POR LA FECHA DE CREACIÓN */
+    private fun eventChangeListener() {
         db = FirebaseFirestore.getInstance()
         db.collection("recipes").orderBy("created_at", Query.Direction.DESCENDING)
             .addSnapshotListener(object: EventListener<QuerySnapshot> {

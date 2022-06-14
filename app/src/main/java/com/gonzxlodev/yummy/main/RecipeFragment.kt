@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide
 
 class RecipeFragment : Fragment() {
 
-    /** variables */
+    /** VARIABLES */
     private var _binding: FragmentRecipeBinding? = null
     private val binding get() = _binding!!
 
@@ -24,6 +24,7 @@ class RecipeFragment : Fragment() {
         _binding = FragmentRecipeBinding.inflate(inflater)
         var view = binding.root
 
+        /** CARGA LOS DATOS DE LA RECETA SELECCIONADA */
         Glide.with(activity as Context)
             .load(arguments?.getString("imgUrl"))
             .skipMemoryCache(true)

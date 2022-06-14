@@ -64,4 +64,12 @@
     <string name="fill_the_camps">Please fill all the camps</string>
     <string name="recipe_deleted">Recipe deleted</string>
     <string name="yout_dont_have_any_recipe">You don\'t have recipes</string>
+    <string name="shopping_list">Shopping list</string>
+    <string name="example_bag">Bag example text</string>
+    <string name="password_min_six">Password must be at least 6</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="create">Create</string>
+    <string name="close">Close</string>
+    <string name="no_items_in_bag">No items in bag</string>
 </resources>

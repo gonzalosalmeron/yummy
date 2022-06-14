@@ -3,12 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../../../layout/custom_preview.xml" value="0.1935185185185185" />
         <entry key="app/src/main/res/drawable/border_bottom.xml" value="0.2" />
         <entry key="app/src/main/res/drawable/border_top_bottom.xml" value="0.2" />
         <entry key="app/src/main/res/drawable/divider_item_decoration.xml" value="0.1824074074074074" />
         <entry key="app/src/main/res/drawable/ic_back_button.xml" value="0.1625" />
         <entry key="app/src/main/res/drawable/ic_bag.xml" value="0.3314814814814815" />
         <entry key="app/src/main/res/drawable/ic_clock.xml" value="0.2722222222222222" />
+        <entry key="app/src/main/res/drawable/ic_delete.xml" value="0.18796296296296297" />
         <entry key="app/src/main/res/drawable/ic_gallery.xml" value="0.3314814814814815" />
         <entry key="app/src/main/res/drawable/ic_home.xml" value="0.3314814814814815" />
         <entry key="app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.3314814814814815" />
@@ -16,6 +18,7 @@
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.3314814814814815" />
         <entry key="app/src/main/res/drawable/ic_logout.xml" value="0.16574074074074074" />
         <entry key="app/src/main/res/drawable/ic_menu.xml" value="0.2882051282051282" />
+        <entry key="app/src/main/res/drawable/ic_plus.xml" value="0.159375" />
         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.3314814814814815" />
         <entry key="app/src/main/res/drawable/ic_upload.xml" value="0.29814814814814816" />
         <entry key="app/src/main/res/drawable/ic_user.xml" value="0.3314814814814815" />
@@ -33,9 +36,12 @@
         <entry key="app/src/main/res/layout/activity_main2.xml" value="0.1838768115942029" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.15579710144927536" />
         <entry key="app/src/main/res/layout/activity_upload.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/bag_card.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/bag_dialog.xml" value="0.18385416666666668" />
         <entry key="app/src/main/res/layout/bottom_create_recipe_sheet.xml" value="0.184375" />
         <entry key="app/src/main/res/layout/content_detail.xml" value="0.22780797101449277" />
         <entry key="app/src/main/res/layout/custom_dialog.xml" value="0.20425724637681159" />
+        <entry key="app/src/main/res/layout/fragment_bag.xml" value="0.28904665314401623" />
         <entry key="app/src/main/res/layout/fragment_blank.xml" value="0.19791666666666666" />
         <entry key="app/src/main/res/layout/fragment_detail.xml" value="0.22780797101449277" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.28849238000020216" />
@@ -47,6 +53,7 @@
         <entry key="app/src/main/res/layout/fragment_scrolling.xml" value="0.1983695652173913" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.1838768115942029" />
         <entry key="app/src/main/res/layout/fragment_upload.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/loading_dialog.xml" value="0.18385416666666668" />
         <entry key="app/src/main/res/layout/profile_bottom_sheet.xml" value="0.25" />
         <entry key="app/src/main/res/layout/profile_bottom_sheet_dialog.xml" value="0.19655797101449277" />
         <entry key="app/src/main/res/layout/progress_btn_layout.xml" value="0.1793478260869565" />
@@ -58,9 +65,6 @@
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.16197916666666667" />
       </map>
     </option>
-  </component>
-  <component name="ProjectPlainTextFileTypeManager">
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/gonzxlodev/yummy/main/profile/ItemListDialogFragment.kt" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />

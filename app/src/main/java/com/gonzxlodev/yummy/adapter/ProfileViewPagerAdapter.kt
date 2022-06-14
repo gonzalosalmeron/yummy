@@ -11,6 +11,7 @@ class ProfileViewPagerAdapter(fragmentActivity: FragmentActivity): FragmentState
     override fun getItemCount() = 2
 
     override fun createFragment(position: Int): Fragment {
+        /** CARGA UN FRAGMENTO U OTRO DEPENDIENDO DE DONDE HAGAMOS CLICK */
         return when(position) {
             0 -> { MyRecipesFragment() }
             1 -> { SavedRecipesFragment() }

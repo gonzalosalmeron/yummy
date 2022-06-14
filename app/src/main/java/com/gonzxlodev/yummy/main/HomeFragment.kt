@@ -24,6 +24,7 @@ import kotlin.math.log
 
 class HomeFragment : Fragment() {
 
+    /** VARIABLES */
     private lateinit var dbref: DatabaseReference
     private lateinit var recipesArrayList: ArrayList<Recipe>
     private lateinit var listAdapter: ListAdapter
@@ -44,20 +45,21 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
         super.onViewCreated(itemView, savedInstanceState)
 
+        /** INICIALIZAMOS EL ARRAY Y EL ADAPTADOR */
         recipesArrayList = arrayListOf()
 
         listAdapter = ListAdapter(recipesArrayList, activity as Context)
-
         homeRecyclerView.apply {
             layoutManager = GridLayoutManager(activity, 2)
             setHasFixedSize(true)
             adapter = listAdapter
         }
 
-        EventChangeListener()
+        eventChangeListener()
     }
 
-    private fun EventChangeListener() {
+    /** LLAMA A LAS RECETAS DE TODOS LOS USUARIOS ORDENADAS POR ORDEN DE CREACIÓN */
+    private fun eventChangeListener() {
         db = FirebaseFirestore.getInstance()
         db.collection("recipes").orderBy("created_at", Query.Direction.DESCENDING)
             .addSnapshotListener(object: EventListener<QuerySnapshot>{
@@ -66,7 +68,7 @@ class HomeFragment : Fragment() {
                         Log.i("Firestore error", error.message.toString())
                         return
                     }
-                    for (dc :DocumentChange in value?.documentChanges!!){
+                    for (dc: DocumentChange in value?.documentChanges!!){
                         if (dc.type == DocumentChange.Type.ADDED){
                             recipesArrayList.add(dc.document.toObject(Recipe::class.java))
                         }

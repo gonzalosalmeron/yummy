@@ -22,7 +22,8 @@
         <activity
             android:name=".main.MainActivity"
             android:exported="false"
-            android:label="@string/title_activity_main" />
+            android:label="@string/title_activity_main"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".auth.RegisterActivity"
             android:exported="false" />

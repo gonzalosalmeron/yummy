@@ -34,11 +34,11 @@ import javax.xml.validation.SchemaFactory.newInstance
 
 class ProfileFragment : Fragment() {
 
+    /** VARIABLES */
     private lateinit var auth: FirebaseAuth
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager: ViewPager2
 
-    /** variables */
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
 
@@ -54,8 +54,10 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
         super.onViewCreated(itemView, savedInstanceState)
 
+        /** INICIALIZAMOS FIREBASE AUTH */
         auth = Firebase.auth
 
+        /** INICIALIZA EL TABLAYOUT */
         tabLayout = binding.profileTabLayout
         viewPager = binding.profileViewPager
         viewPager.adapter = ProfileViewPagerAdapter(activity as FragmentActivity)
@@ -67,6 +69,7 @@ class ProfileFragment : Fragment() {
             }
         }.attach()
 
+        /** LLAMADA DEL MÉTODO SETUSERPROFILE */
         setUserProfile()
 
         binding.profileLogoutBtn.setOnClickListener {
@@ -87,6 +90,7 @@ class ProfileFragment : Fragment() {
 
     }
 
+    /** PONE LA IMAGEN Y EL NOMBRE DE PERFIL DEL USUARIO ACTUALMENTE LOGUEADO */
     private fun setUserProfile(){
         val prefs = activity?.getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)
         val email = prefs?.getString("email", null)
@@ -100,6 +104,7 @@ class ProfileFragment : Fragment() {
             .into(binding.profileUserImage)
     }
 
+    /** SI HACEMOS LOGOUT NOS LLEVA DE VUELTA A LA ACTIVIDAD DE AUTH */
     private fun goAuth() {
         val intent = Intent(context, AuthActivity::class.java)
         startActivity(intent)

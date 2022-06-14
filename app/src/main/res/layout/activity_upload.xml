@@ -41,7 +41,7 @@
 
         <!--        PROGRESS BAR -->
         <ProgressBar
-            android:id="@id/upload_progressBar"
+            android:id="@+id/upload_progressBar"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginEnd="40dp"

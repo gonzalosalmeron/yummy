@@ -1,7 +1,6 @@
 package com.gonzxlodev.yummy.adapter
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,22 +8,16 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.gonzxlodev.yummy.R
 import com.gonzxlodev.yummy.databinding.RecipeCardBinding
-import com.gonzxlodev.yummy.main.DetailActivity
 import com.gonzxlodev.yummy.main.RecipeFragment
-import com.gonzxlodev.yummy.main.SearchFragment
 import com.gonzxlodev.yummy.model.Recipe
-import com.gonzxlodev.yummy.uitel.loadImage
 
 class ListAdapter(private val recipeList: ArrayList<Recipe>, private val context: Context):
     RecyclerView.Adapter<ListAdapter.ViewHolder>()
 {
-
-    var onItemClick: ((Recipe) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -37,14 +30,17 @@ class ListAdapter(private val recipeList: ArrayList<Recipe>, private val context
 
         val recipe = recipeList[position]
 
-        viewHolder.setIsRecyclable(false);
+//        viewHolder.setIsRecyclable(false);
 
+        /** CARGAMOS TODOS LOS DATOS DE LA RECETA EN SU CARD */
         viewHolder.name.text = recipe.name
         Glide.with(context)
             .load(recipe.imgUrl)
             .skipMemoryCache(true)
             .into(viewHolder.imageView)
 
+        /** SI HACEMOS CLICK EN LA CARD INICIA UNA ACTIVIDAD PARA VER LOS DATOS DE LA
+         * RECETA DETALLADAMENTE */
         viewHolder.itemView.setOnClickListener { view ->
             val bundle = Bundle()
             bundle.putString("imgUrl", recipe.imgUrl)
