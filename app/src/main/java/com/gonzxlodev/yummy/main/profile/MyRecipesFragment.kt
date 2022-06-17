@@ -1,6 +1,7 @@
 package com.gonzxlodev.yummy.main.profile
 
 import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.GridLayout.HORIZONTAL
 import android.widget.GridLayout.VERTICAL
 import android.widget.PopupMenu
+import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
@@ -22,7 +24,10 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.firestore.*
 import kotlinx.android.synthetic.main.fragment_my_recipes.*
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.gonzxlodev.yummy.databinding.FragmentProfileBinding
 import com.gonzxlodev.yummy.main.MainActivity
+import org.w3c.dom.Text
+import androidx.fragment.app.FragmentManager
 
 
 class MyRecipesFragment : Fragment() {
@@ -52,7 +57,7 @@ class MyRecipesFragment : Fragment() {
         listAdapter = MyRecipesAdapter(recipesArrayList, activity as Context, myRecipesFragment)
 
         my_recipes_recyclerview.apply {
-            layoutManager = GridLayoutManager(activity, 3)
+            layoutManager = GridLayoutManager(context, 3)
             setHasFixedSize(false)
             adapter = listAdapter
 
@@ -61,6 +66,7 @@ class MyRecipesFragment : Fragment() {
                 context,
                 LinearLayoutManager.VERTICAL
             )
+
             dividerItemDecorationVertical
                 .setDrawable(context.resources.getDrawable(R.drawable.divider_item_decoration))
 
@@ -94,12 +100,11 @@ class MyRecipesFragment : Fragment() {
                             var recipe = dc.document.toObject(Recipe::class.java)
                             recipe.id = dc.document.id
                             recipesArrayList.add(recipe)
-                            listAdapter.notifyItemInserted(recipesArrayList.size)
+                            listAdapter.notifyDataSetChanged()
                         }
                     }
+                    saveRecipes(recipesArrayList.size)
 
-//                    recipesArrayList.reverse()
-                    Log.i("testing", "${recipesArrayList}")
 
                     /** SI NO HAY RECETAS SE MUESTRA UNA IMÁGEN Y TEXTO INDICÁNDOLO */
                     if(recipesArrayList.size == 0) {
@@ -110,6 +115,13 @@ class MyRecipesFragment : Fragment() {
                 }
             })
 
+    }
+
+    /** ALMACENA LOS DATOS DEL USUARIO QUE HA INICIADO SESIÓN EN LAS SHARED PREFERENCES */
+    private fun saveRecipes(recipes: Int) {
+        val prefs = activity?.getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)!!.edit()
+        prefs.putString("recipes", recipes.toString())
+        prefs.apply()
     }
 
 }

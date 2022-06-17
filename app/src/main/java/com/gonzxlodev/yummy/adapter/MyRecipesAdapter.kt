@@ -86,6 +86,7 @@ class MyRecipesAdapter(private val recipeList: ArrayList<Recipe>, private val co
                             db.collection("recipes").document(recipe.id!!).delete()
                             recipeList.remove(recipe)
                             notifyItemRemoved(position)
+                            notifyDataSetChanged()
 
                             Snackbar.make(viewHolder.binding.root, R.string.recipe_deleted, Snackbar.LENGTH_LONG).show()
 

@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.gonzxlodev.yummy.R
@@ -29,7 +31,6 @@ class ListAdapter(private val recipeList: ArrayList<Recipe>, private val context
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
 
         val recipe = recipeList[position]
-
 //        viewHolder.setIsRecyclable(false);
 
         /** CARGAMOS TODOS LOS DATOS DE LA RECETA EN SU CARD */
@@ -53,11 +54,17 @@ class ListAdapter(private val recipeList: ArrayList<Recipe>, private val context
             val activity = view!!.context as AppCompatActivity
             val fragment = RecipeFragment()
             fragment.arguments = bundle
-            activity.supportFragmentManager.beginTransaction()
-                .replace(R.id.nav_container, fragment)
-                .addToBackStack(null)
-                .setReorderingAllowed(true)
-                .commit()
+            activity.supportFragmentManager.commit {
+                setCustomAnimations(
+                    R.anim.slide_in,
+                    R.anim.fade_out,
+                    R.anim.fade_in,
+                    R.anim.slide_out
+                )
+                replace(R.id.nav_container, fragment as Fragment)
+                addToBackStack(null)
+                setReorderingAllowed(true)
+            }
         }
     }
 

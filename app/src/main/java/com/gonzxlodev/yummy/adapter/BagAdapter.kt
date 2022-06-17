@@ -50,7 +50,6 @@ class BagAdapter(private val bagList: ArrayList<Bag>, private val context: Conte
                 bag.completed = true
                 viewHolder.checkBox.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
             }
-
         }
     }
 

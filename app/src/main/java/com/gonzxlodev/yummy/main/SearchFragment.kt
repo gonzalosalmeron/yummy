@@ -59,7 +59,7 @@ class SearchFragment : Fragment() {
     /** LLAMAMOS A TODAS LAS RECETAS DE LOS USUARIOS ORDENADAS POR LA FECHA DE CREACIÓN */
     private fun eventChangeListener() {
         db = FirebaseFirestore.getInstance()
-        db.collection("recipes").orderBy("created_at", Query.Direction.DESCENDING)
+        db.collection("recipes").orderBy("created_at", Query.Direction.ASCENDING)
             .addSnapshotListener(object: EventListener<QuerySnapshot> {
                 override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
                     if (error != null) {
@@ -68,16 +68,15 @@ class SearchFragment : Fragment() {
                     }
                     for (dc : DocumentChange in value?.documentChanges!!){
                         if (dc.type == DocumentChange.Type.ADDED){
-                            recipesArrayList.add(dc.document.toObject(Recipe::class.java))
+                            recipesArrayList.add(0, dc.document.toObject(Recipe::class.java));
+                            listAdapter.notifyItemInserted(0);
                         }
                     }
-
+                    listAdapter.notifyDataSetChanged()
                     if (homeRecyclerView != null) {
 //                        homeRecyclerView.scrollToPosition(0)
                     }
 
-                    listAdapter.notifyDataSetChanged()
-//                    listAdapter.notifyDataSetChanged()
                 }
 
             })

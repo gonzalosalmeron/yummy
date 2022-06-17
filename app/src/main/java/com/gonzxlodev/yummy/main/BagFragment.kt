@@ -163,9 +163,6 @@ class BagFragment : Fragment() {
                             bagAdapter.notifyItemInserted(bagsArrayList.size)
                         }
                     }
-                    Log.i("bagArray", "${bagsArrayList}")
-
-
 //                    if(bagsArrayList.size == 0) {
 //                        binding.myRecipesNoRecipesBox.visibility = View.VISIBLE
 //                    } else {

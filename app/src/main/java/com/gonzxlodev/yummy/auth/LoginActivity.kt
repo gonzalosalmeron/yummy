@@ -65,7 +65,7 @@ class LoginActivity : AppCompatActivity() {
                     val credential = GoogleAuthProvider.getCredential(account.idToken, null)
                     auth.signInWithCredential(credential).addOnCompleteListener {
                         if (it.isSuccessful) {
-                            saveUserToFireStore(account.displayName!!, account.email!!, account.photoUrl!!)
+                            checkAndSaveUserToFireStore(account.displayName!!, account.email!!, account.photoUrl!!)
                         } else {
                             Toast.makeText(this, R.string.ups_something_failed, Toast.LENGTH_LONG).show()
                         }
@@ -86,8 +86,7 @@ class LoginActivity : AppCompatActivity() {
         if (email.isNotEmpty() && password.isNotEmpty()) {
             auth.signInWithEmailAndPassword(email, password).addOnCompleteListener{
                 if(it.isSuccessful) {
-                    saveUserInLocale(email, null, null)
-                    goMain()
+                    checkAndSaveUserToFireStore(null, email, null)
                 } else {
                     Toast.makeText(this, R.string.ups_something_failed, Toast.LENGTH_LONG).show()
                 }
@@ -107,7 +106,7 @@ class LoginActivity : AppCompatActivity() {
     /** COMPRUEBA QUE EL USUARIO LOGUEADO NO TENGA UNA CUENTA YA CREADA DENTRO DE LA COLECIÓN
      * DE USUARIO EN FIREBASE. SI EL USUARIO NO EXISTIESE EN LA COLECIÓN LO CREARÍA, ALMACENANDO
      * SU NOMBRE, SU CORREO Y SU IMAGEN DE PERFIL DE GOOGLE */
-    private fun saveUserToFireStore(name:String, email:String ,imgUrl: Uri) {
+    private fun checkAndSaveUserToFireStore(name:String?, email:String ,imgUrl: Uri?) {
         db.collection("users").document(email).get()
             .addOnSuccessListener {
                 var dbEmail = it.get("email") as String?
@@ -119,23 +118,23 @@ class LoginActivity : AppCompatActivity() {
                             "imgUrl" to imgUrl,
                         )
                     ).addOnSuccessListener { taskSnapshot ->
-                        saveUserInLocale(email, name, imgUrl)
+                        saveUserInLocale(email, name, imgUrl.toString())
                         goMain()
                     }
                 } else {
-                    saveUserInLocale(email, name, imgUrl)
+                    var img = it.get("imgUrl")
+                    saveUserInLocale(email, it.get("name") as String, img.toString()?:null)
                     goMain()
                 }
             }
     }
 
     /** ALMACENA LOS DATOS DEL USUARIO QUE HA INICIADO SESIÓN EN LAS SHARED PREFERENCES */
-    private fun saveUserInLocale(email: String, name: String?, imgUrl: Uri?) {
+    private fun saveUserInLocale(email: String, name: String?, imgUrl: String?=null) {
         val prefs = getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE).edit()
         prefs.putString("email", email)
         prefs.putString("name", name)
-        prefs.putString("imgUrl", imgUrl.toString())
-        Log.i("imgUril", "${imgUrl}, ${name}")
+        prefs.putString("imgUrl", imgUrl)
         prefs.apply()
     }
 }

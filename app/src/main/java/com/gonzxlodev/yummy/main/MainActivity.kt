@@ -2,10 +2,13 @@ package com.gonzxlodev.yummy.main
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.OnLifecycleEvent
 import com.gonzxlodev.yummy.R
 import com.gonzxlodev.yummy.databinding.ActivityMainBinding
 import com.gonzxlodev.yummy.main.profile.ProfileFragment
@@ -18,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     private val SearchFragment = com.gonzxlodev.yummy.main.SearchFragment()
     private val BagFragment = com.gonzxlodev.yummy.main.BagFragment()
     private val ProfileFragment = ProfileFragment()
+    private var lastItem: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,10 +39,11 @@ class MainActivity : AppCompatActivity() {
             when(item.itemId) {
                 R.id.nav_home -> {
                     replaceFragment(HomeFragment)
-                    item.title
+                    lastItem = 0
                 }
                 R.id.nav_search -> {
                     replaceFragment(SearchFragment)
+                    lastItem = 1
                 }
                 R.id.nav_upload -> {
                     item.isCheckable = false
@@ -46,9 +51,11 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_bag -> {
                     replaceFragment(BagFragment)
+                    lastItem = 3
                 }
                 R.id.nav_profile -> {
                     replaceFragment(ProfileFragment)
+                    lastItem = 4
                 }
                 else -> Log.i("hola", "hola")
             }
@@ -58,10 +65,6 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-
-//    override fun onBackPressed() {
-//        // Simply Do noting!
-//    }
 
     /** MÉTODO PÚBLICO ES ACCESIBLE A TODOS LOS FRAGMENTOS QUE PERTENEZCAN A ESTA ACTIVIDAD
      * EL CUAL PERMITE RECOGER LOS DATOS DEL USUARIO LOGUEADO DE LAS SHARED PREFERENCES OPTIMIZANDO
@@ -73,6 +76,13 @@ class MainActivity : AppCompatActivity() {
         return email.toString()
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        val myBottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav)
+        myBottomNavigationView.menu.getItem(lastItem).isChecked = true
+    }
+
     /** ESTE MÉTODO REEMPLAZA EL FRAGMENTO ACTUAL POR EL NUEVO INDICADO */
     internal fun replaceFragment(fragment: Fragment) {
         val transaction = supportFragmentManager.beginTransaction()
@@ -81,8 +91,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun uploadActivity() {
-        val intent = Intent(this, UploadActivity::class.java)
-        startActivity(intent)
+        // Check if we're running on Android 5.0 or higher
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // Apply activity transition
+        } else {
+            val intent = Intent(this, UploadActivity::class.java)
+            startActivity(intent)
+        }
+
     }
 
 }
