@@ -68,7 +68,10 @@ class SearchFragment : Fragment() {
                     }
                     for (dc : DocumentChange in value?.documentChanges!!){
                         if (dc.type == DocumentChange.Type.ADDED){
-                            recipesArrayList.add(0, dc.document.toObject(Recipe::class.java));
+                            var recipe = dc.document.toObject(Recipe::class.java)
+//                            recipesArrayList.add(0, recipe);
+                            if (recipesArrayList.indexOf(recipe) == -1) recipesArrayList.add(0, recipe)
+
                             listAdapter.notifyItemInserted(0);
                         }
                     }

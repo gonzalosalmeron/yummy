@@ -15,12 +15,15 @@ import com.bumptech.glide.Glide
 import com.gonzxlodev.yummy.R
 import com.gonzxlodev.yummy.databinding.ActivityUploadBinding
 import com.gonzxlodev.yummy.model.Category
+import com.gonzxlodev.yummy.model.Recipe
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.storage.FirebaseStorage
 import com.robertlevonyan.components.picker.*
+import java.sql.Timestamp
+import java.text.SimpleDateFormat
 import java.util.*
 
 class UploadActivity : AppCompatActivity() {
@@ -31,6 +34,7 @@ class UploadActivity : AppCompatActivity() {
     private var selectedPhotoUri: Uri? = null
     private lateinit var categoriesArrayList: ArrayList<Category>
     private var category: String? = null
+    var createdAt: Date? = null
 
     private val db = FirebaseFirestore.getInstance()
 
@@ -175,7 +179,7 @@ class UploadActivity : AppCompatActivity() {
                 "tag" to category,
                 "imgUrl" to imgUrl,
                 "user_email" to getEmail(),
-                "created_at" to FieldValue.serverTimestamp()
+                "created_at" to createdAt
             )
 
         ).addOnSuccessListener { taskSnapshot ->
@@ -240,6 +244,9 @@ class UploadActivity : AppCompatActivity() {
         var time = intent.getStringExtra("time").toString()
         var description = intent.getStringExtra("description").toString()
         var imgUrl = intent.getStringExtra("imgUrl").toString()
+
+        val formatData = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH)
+        createdAt = formatData.parse(intent.getStringExtra("created_at"))
 
         binding.uploadNameEd.setText(name)
         binding.uploadIngredientsEd.setText(ingredients)

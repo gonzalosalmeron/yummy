@@ -22,6 +22,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.fragment_home.*
+import java.io.Serializable
 
 
 class MyRecipesAdapter(private val recipeList: ArrayList<Recipe>, private val context: Context, private val fragment: Fragment):
@@ -89,7 +90,7 @@ class MyRecipesAdapter(private val recipeList: ArrayList<Recipe>, private val co
                             intent.putExtra("diners", recipe.diners)
                             intent.putExtra("ingredients", recipe.ingredients)
                             intent.putExtra("description", recipe.description)
-                            intent.putExtra("created_at", recipe.created_at)
+                            intent.putExtra("created_at", recipe.created_at.toString())
                             context.startActivity(intent)
                         }
                         /** SI DAMOS CLICK EN LA OPCIÓN DE ELIMINAR, ELIMINA LA RECETA */

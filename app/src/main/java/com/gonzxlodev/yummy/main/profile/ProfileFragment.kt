@@ -100,7 +100,7 @@ class ProfileFragment : Fragment() {
 //            bottomSheetFragment.show(requireFragmentManager(), bottomSheetFragment.tag)
 //        }
 //        binding.profileUserRecipes.text = listAdapter.itemCount.toString()
-        eventChangeListener()
+//        eventChangeListener()
     }
 
 

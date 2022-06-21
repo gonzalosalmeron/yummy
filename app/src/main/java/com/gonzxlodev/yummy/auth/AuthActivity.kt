@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import com.gonzxlodev.yummy.R
 import com.gonzxlodev.yummy.databinding.ActivityAuthBinding
 import com.gonzxlodev.yummy.main.MainActivity
@@ -29,6 +30,7 @@ class AuthActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAuthBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
         /** ESTABLECE LOS LISTENERS EN LOS BOTONES */
         binding.regEmailBtn.setOnClickListener{ this.regWithEmail() }

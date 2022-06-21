@@ -38,6 +38,7 @@ class MyRecipesFragment : Fragment() {
 
     private lateinit var recipesArrayList: ArrayList<Recipe>
     private lateinit var listAdapter: MyRecipesAdapter
+    var isEdited: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -97,19 +98,24 @@ class MyRecipesFragment : Fragment() {
                         if (dc.type == DocumentChange.Type.ADDED){
                             var recipe = dc.document.toObject(Recipe::class.java)
                             recipe.id = dc.document.id
-                            recipesArrayList.add(recipe)
-                            Log.i("bagItem", "${recipe}, hola")
 
-                            listAdapter.notifyDataSetChanged()
+                            if (recipesArrayList.indexOf(recipe) == -1) recipesArrayList.add(0, recipe)
+
+                            listAdapter.notifyItemInserted(0)
                         }
                         if (dc.type == DocumentChange.Type.MODIFIED) {
-                            var recipe = dc.document.toObject(Recipe::class.java)
-                            recipe.id = dc.document.id
-//                            listAdapter.notifyItemChanged(position)
-//                            listAdapter.notifyDataSetChanged()
-//                            Log.i("hola", "${position}")
-//                            Log.i("hola", "${recipesArrayList}")
-//                            Log.i("hola", "$${recipesArrayList.size}")
+                            var newRecipe = dc.document.toObject(Recipe::class.java)
+                            newRecipe.id = dc.document.id
+
+                            /** COMPRUEBA SI LA ID DEL DOCUMENTO ACTUALIZADO ESTÁ EN EL ARRA */
+                            var position = 0
+                            for (recipe in recipesArrayList) {
+                                if (recipe.id == dc.document.id) {
+                                    position = recipesArrayList.indexOf(recipe)
+                                    recipesArrayList.set(position, newRecipe)
+                                    listAdapter.notifyItemChanged(position)
+                                }
+                            }
                         }
                     }
 

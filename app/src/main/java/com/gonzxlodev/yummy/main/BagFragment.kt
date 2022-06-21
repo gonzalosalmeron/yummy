@@ -157,8 +157,8 @@ class BagFragment : Fragment() {
                         if (dc.type == DocumentChange.Type.ADDED){
                             var bag = dc.document.toObject(Bag::class.java)
                             bag.id = dc.document.id
-                            Log.i("bagItem", "${bag}, hola")
-                            bagsArrayList.add(bag)
+
+                            if (bagsArrayList.indexOf(bag) == -1) bagsArrayList.add(bag)
 
                             bagAdapter.notifyItemInserted(bagsArrayList.size)
                         }
@@ -177,7 +177,6 @@ class BagFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         bagsArrayList.clear()
-        bagAdapter.notifyDataSetChanged()
         Log.i("bagItem", "destroy, ${bagsArrayList}")
         _binding = null
     }
