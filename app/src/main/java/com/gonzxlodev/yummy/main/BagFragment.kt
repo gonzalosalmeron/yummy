@@ -32,7 +32,6 @@ class BagFragment : Fragment() {
 
     private lateinit var bagsArrayList: ArrayList<Bag>
     private lateinit var bagAdapter: BagAdapter
-    private lateinit var db: FirebaseFirestore
     private lateinit var dataBag: String
     private var deleteBags: ArrayList<Bag> = arrayListOf()
 
@@ -108,7 +107,8 @@ class BagFragment : Fragment() {
 
     /** AÑADE UN ALIMENTO A LA BOLSA Y LO SUBE A FIREBASE */
     private fun createBag() {
-        db.collection("bags").add(
+//        Log.i("bagItem", "${dataBag}")
+        (activity as MainActivity).db.collection("bags").add(
             hashMapOf(
                 "name" to dataBag,
                 "completed" to false,
@@ -131,7 +131,7 @@ class BagFragment : Fragment() {
          * A FIREBASE Y NO CARGAR LAS PETICIONES */
         var batch = FirebaseFirestore.getInstance().batch()
         deleteBags.forEach {
-            var docRef = db.collection("bags").document(it.id!!)
+            var docRef = (activity as MainActivity).db.collection("bags").document(it.id!!)
             batch.delete(docRef)
             bagsArrayList.remove(it)
         }
@@ -144,8 +144,7 @@ class BagFragment : Fragment() {
     /** LLAMADA A FIREBASE PARA RECOGER TODOS LOS ALIMENTOS QUE TENGA EN LA BOLSA
      * EL USUARIO LOGUEADO ACTUALMENTE */
     private fun eventChangeListener() {
-        db = FirebaseFirestore.getInstance()
-        db.collection("bags").orderBy("created_at", Query.Direction.ASCENDING)
+        (activity as MainActivity).db.collection("bags").orderBy("created_at", Query.Direction.ASCENDING)
             .whereEqualTo("user_email", (activity as MainActivity).getEmail())
             .addSnapshotListener(object: EventListener<QuerySnapshot> {
                 override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
@@ -160,6 +159,7 @@ class BagFragment : Fragment() {
                             bag.id = dc.document.id
                             Log.i("bagItem", "${bag}, hola")
                             bagsArrayList.add(bag)
+
                             bagAdapter.notifyItemInserted(bagsArrayList.size)
                         }
                     }
@@ -176,6 +176,9 @@ class BagFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        bagsArrayList.clear()
+        bagAdapter.notifyDataSetChanged()
+        Log.i("bagItem", "destroy, ${bagsArrayList}")
         _binding = null
     }
 }

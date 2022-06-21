@@ -1,6 +1,7 @@
 package com.gonzxlodev.yummy.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,12 +9,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat.startActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.gonzxlodev.yummy.R
 import com.gonzxlodev.yummy.databinding.RecipeCard2Binding
 import com.gonzxlodev.yummy.main.RecipeFragment
+import com.gonzxlodev.yummy.main.UploadActivity
 import com.gonzxlodev.yummy.model.Recipe
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.FirebaseFirestore
@@ -78,15 +81,27 @@ class MyRecipesAdapter(private val recipeList: ArrayList<Recipe>, private val co
                         /** SI DAMOS CLICK EN LA OPCIÓN DE EDITAR, LANZA LA ACTIVIDAD DONDE
                          * PODREMOS EDITAR LA RECETA */
                         R.id.recipe_popup_edit -> {
-
+                            val intent = Intent(view!!.context, UploadActivity::class.java)
+                            intent.putExtra("id", recipe.id)
+                            intent.putExtra("imgUrl", recipe.imgUrl)
+                            intent.putExtra("name", recipe.name)
+                            intent.putExtra("time", recipe.preparation_time)
+                            intent.putExtra("diners", recipe.diners)
+                            intent.putExtra("ingredients", recipe.ingredients)
+                            intent.putExtra("description", recipe.description)
+                            intent.putExtra("created_at", recipe.created_at)
+                            context.startActivity(intent)
                         }
                         /** SI DAMOS CLICK EN LA OPCIÓN DE ELIMINAR, ELIMINA LA RECETA */
                         R.id.recipe_popup_delete -> {
                             FirebaseStorage.getInstance().getReferenceFromUrl(recipe.imgUrl!!).delete()
                             db.collection("recipes").document(recipe.id!!).delete()
-                            recipeList.remove(recipe)
-                            notifyItemRemoved(position)
-                            notifyDataSetChanged()
+                                .addOnSuccessListener {
+                                    recipeList.remove(recipe)
+                                    notifyItemRemoved(position)
+                                    notifyDataSetChanged()
+                                }
+
 
                             Snackbar.make(viewHolder.binding.root, R.string.recipe_deleted, Snackbar.LENGTH_LONG).show()
 

@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
 import com.gonzxlodev.yummy.R
 import com.gonzxlodev.yummy.databinding.ActivityUploadBinding
 import com.gonzxlodev.yummy.model.Category
@@ -51,16 +52,34 @@ class UploadActivity : AppCompatActivity() {
         binding.uploadUploadBtn.setOnClickListener {
             var name = binding.uploadNameEd.text.toString().trim()
             var description = binding.uploadDescriptionEd.text.toString().trim()
+            var diners = binding.uploadDinersEd.text.toString().trim()
+            var time = binding.uploadTimeEd.text.toString().trim()
 
-            if (name.isNotEmpty() && description.isNotEmpty()) {
-                this.uploadImageToFirebaseStorage()
+            if (name.isNotEmpty() && description.isNotEmpty() && diners.isNotEmpty() && time.isNotEmpty()) {
+                if( getIntent().getExtras() == null) {
+                    Log.i("hola", "por aqui no")
+                    uploadImageToFirebaseStorage()
+                } else if (selectedPhotoUri == null) {
+                    Log.i("hola", "por aqui si")
+                    updateRecipe(intent.getStringExtra("imgUrl").toString())
+                } else {
+                    Log.i("hola", "por aqui no, ${selectedPhotoUri.toString()}")
+                    uploadImageToFirebaseStorage()
+                }
             } else {
                 Toast.makeText(this, "Please fill all the camps", Toast.LENGTH_LONG).show()
             }
         }
 
-
+        /** EN CASO DE QUE VAYAMOS A EDITAR LA RECETA, RECOGE LOS DATOS DE LOS PUTEXTRA */
+        if( getIntent().getExtras() != null) {
+            getParamsRecipe()
+            binding.choosenImgImg.visibility = View.INVISIBLE
+            binding.choosenImgText.visibility = View.INVISIBLE
+            binding.uploadUploadBtn.text = getString(R.string.edit)
+        }
     }
+
 
     /** EMPIEZA EL PROCESO DE SELECCIÓN DE LA IMAGEN */
     private fun startImagePicker(){
@@ -111,7 +130,11 @@ class UploadActivity : AppCompatActivity() {
             ref.putFile(selectedPhotoUri!!)
                 .addOnSuccessListener {
                     ref.downloadUrl.addOnSuccessListener {
-                        saveRecipeToFireStoreDatabase(it.toString())
+                        if( getIntent().getExtras() != null && selectedPhotoUri != null) {
+                            updateRecipe(it.toString())
+                        } else {
+                            saveRecipeToFireStoreDatabase(it.toString())
+                        }
                     }
                 }
         }
@@ -136,6 +159,29 @@ class UploadActivity : AppCompatActivity() {
             binding.uploadProgressBar.visibility = View.INVISIBLE
             binding.uploadProgressBar.isIndeterminate = false
             Snackbar.make(binding.root, "Recipe uploaded!", Snackbar.LENGTH_LONG).show()
+            finish()
+        }
+    }
+
+    /** ACTUALIZA TODOS LOS DATOS DE LA RECETA EN FIRESTORE */
+    private fun updateRecipe(imgUrl: String) {
+        db.collection("recipes").document(intent.getStringExtra("id").toString()).set(
+            hashMapOf(
+                "name" to binding.uploadNameEd.text.toString().trim().replaceFirstChar(Char::titlecase),
+                "ingredients" to binding.uploadIngredientsEd.text.toString().trim(),
+                "diners" to binding.uploadDinersEd.text.toString().trim(),
+                "preparation_time" to binding.uploadTimeEd.text.toString().trim(),
+                "description" to binding.uploadDescriptionEd.text.toString().trim(),
+                "tag" to category,
+                "imgUrl" to imgUrl,
+                "user_email" to getEmail(),
+                "created_at" to FieldValue.serverTimestamp()
+            )
+
+        ).addOnSuccessListener { taskSnapshot ->
+            binding.uploadProgressBar.visibility = View.INVISIBLE
+            binding.uploadProgressBar.isIndeterminate = false
+            Snackbar.make(binding.root, R.string.recipe_updated, Snackbar.LENGTH_LONG).show()
             finish()
         }
     }
@@ -185,4 +231,26 @@ class UploadActivity : AppCompatActivity() {
 
         return email.toString()
     }
+
+    /** EN CASO DE QUE VAYAMOS A EDITAR LA RECETA, RECOGE LOS DATOS DE LOS PUTEXTRA */
+    private fun getParamsRecipe() {
+        var name = intent.getStringExtra("name").toString()
+        var ingredients = intent.getStringExtra("ingredients").toString()
+        var diners = intent.getStringExtra("diners").toString()
+        var time = intent.getStringExtra("time").toString()
+        var description = intent.getStringExtra("description").toString()
+        var imgUrl = intent.getStringExtra("imgUrl").toString()
+
+        binding.uploadNameEd.setText(name)
+        binding.uploadIngredientsEd.setText(ingredients)
+        binding.uploadDinersEd.setText(diners)
+        binding.uploadTimeEd.setText(time)
+        binding.uploadDescriptionEd.setText(description)
+        Glide.with(this)
+            .load(Uri.parse(imgUrl))
+            .skipMemoryCache(true)
+            .into(binding.chooseImageView)
+    }
+
+
 }

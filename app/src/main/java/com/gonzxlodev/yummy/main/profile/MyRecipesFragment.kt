@@ -38,7 +38,6 @@ class MyRecipesFragment : Fragment() {
 
     private lateinit var recipesArrayList: ArrayList<Recipe>
     private lateinit var listAdapter: MyRecipesAdapter
-    private lateinit var db: FirebaseFirestore
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -86,8 +85,7 @@ class MyRecipesFragment : Fragment() {
 
     /** LLAMADA A FIREBASE PARA CARGAR LAS RECETAS DEL USUARIO ACTUALMENTE LOGUEADO */
     private fun eventChangeListener() {
-        db = FirebaseFirestore.getInstance()
-        db.collection("recipes").orderBy("created_at", Query.Direction.DESCENDING)
+        (activity as MainActivity).db.collection("recipes").orderBy("created_at", Query.Direction.DESCENDING)
             .whereEqualTo("user_email", (activity as MainActivity).getEmail())
             .addSnapshotListener(object: EventListener<QuerySnapshot> {
                 override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
@@ -100,11 +98,20 @@ class MyRecipesFragment : Fragment() {
                             var recipe = dc.document.toObject(Recipe::class.java)
                             recipe.id = dc.document.id
                             recipesArrayList.add(recipe)
+                            Log.i("bagItem", "${recipe}, hola")
+
                             listAdapter.notifyDataSetChanged()
                         }
+                        if (dc.type == DocumentChange.Type.MODIFIED) {
+                            var recipe = dc.document.toObject(Recipe::class.java)
+                            recipe.id = dc.document.id
+//                            listAdapter.notifyItemChanged(position)
+//                            listAdapter.notifyDataSetChanged()
+//                            Log.i("hola", "${position}")
+//                            Log.i("hola", "${recipesArrayList}")
+//                            Log.i("hola", "$${recipesArrayList.size}")
+                        }
                     }
-                    saveRecipes(recipesArrayList.size)
-
 
                     /** SI NO HAY RECETAS SE MUESTRA UNA IMÁGEN Y TEXTO INDICÁNDOLO */
                     if(recipesArrayList.size == 0) {
@@ -115,13 +122,6 @@ class MyRecipesFragment : Fragment() {
                 }
             })
 
-    }
-
-    /** ALMACENA LOS DATOS DEL USUARIO QUE HA INICIADO SESIÓN EN LAS SHARED PREFERENCES */
-    private fun saveRecipes(recipes: Int) {
-        val prefs = activity?.getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)!!.edit()
-        prefs.putString("recipes", recipes.toString())
-        prefs.apply()
     }
 
 }

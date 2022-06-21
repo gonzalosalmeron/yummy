@@ -43,7 +43,6 @@ class ProfileFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var tabLayout: TabLayout
     private lateinit var viewPager: ViewPager2
-    private lateinit var db: FirebaseFirestore
     private lateinit var recipesArrayList: ArrayList<Recipe>
     private lateinit var listAdapter: MyRecipesAdapter
 
@@ -128,8 +127,7 @@ class ProfileFragment : Fragment() {
 
     /** LLAMADA A FIREBASE PARA CARGAR LAS RECETAS DEL USUARIO ACTUALMENTE LOGUEADO */
     private fun eventChangeListener() {
-        db = FirebaseFirestore.getInstance()
-        db.collection("recipes").orderBy("created_at", Query.Direction.DESCENDING)
+        (activity as MainActivity).db.collection("recipes").orderBy("created_at", Query.Direction.DESCENDING)
             .whereEqualTo("user_email", (activity as MainActivity).getEmail())
             .addSnapshotListener(object: EventListener<QuerySnapshot> {
                 override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
@@ -143,8 +141,13 @@ class ProfileFragment : Fragment() {
                             binding.profileUserRecipes.text = recipesArrayList.size.toString()
                         }
                         if (dc.type == DocumentChange.Type.REMOVED) {
-                            recipesArrayList.removeLast()
-                            binding.profileUserRecipes.text = recipesArrayList.size.toString()
+                            if (recipesArrayList.size > 0) {
+                                binding.profileUserRecipes.text = recipesArrayList.size.toString()
+                                recipesArrayList.removeLast()
+                            } else {
+                                binding.profileUserRecipes.text = "0"
+                            }
+
                         }
                     }
 

@@ -13,6 +13,7 @@ import com.gonzxlodev.yummy.R
 import com.gonzxlodev.yummy.databinding.ActivityMainBinding
 import com.gonzxlodev.yummy.main.profile.ProfileFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.firestore.FirebaseFirestore
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,11 +23,15 @@ class MainActivity : AppCompatActivity() {
     private val BagFragment = com.gonzxlodev.yummy.main.BagFragment()
     private val ProfileFragment = ProfileFragment()
     private var lastItem: Int = 0
+    lateinit var db: FirebaseFirestore
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        db = FirebaseFirestore.getInstance()
 
         /** RECOGE LA BARRA DE NAVEGACIÓN */
         val myBottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav)
@@ -91,14 +96,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun uploadActivity() {
-        // Check if we're running on Android 5.0 or higher
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            // Apply activity transition
-        } else {
-            val intent = Intent(this, UploadActivity::class.java)
-            startActivity(intent)
-        }
-
+        val intent = Intent(this, UploadActivity::class.java)
+        startActivity(intent)
     }
 
 }

@@ -72,4 +72,5 @@
     <string name="create">Create</string>
     <string name="close">Close</string>
     <string name="no_items_in_bag">No items in bag</string>
+    <string name="recipe_updated">Recipe updated!</string>
 </resources>
