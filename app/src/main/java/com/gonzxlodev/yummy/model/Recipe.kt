@@ -12,5 +12,7 @@ data class Recipe (
     var tag: String? = null,
     var imgUrl: String? = null,
     var user_email: String? = null,
+    var user_name: String? = null,
+    var user_imgUrl: String? = null,
     var created_at: Date? = null
 )

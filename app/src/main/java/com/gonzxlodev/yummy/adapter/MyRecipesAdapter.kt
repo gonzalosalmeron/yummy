@@ -3,6 +3,7 @@ package com.gonzxlodev.yummy.adapter
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,6 +58,10 @@ class MyRecipesAdapter(private val recipeList: ArrayList<Recipe>, private val co
             bundle.putString("diners", recipe.diners)
             bundle.putString("ingredients", recipe.ingredients)
             bundle.putString("description", recipe.description)
+            bundle.putString("tag", recipe.tag)
+            bundle.putString("user_name", recipe.user_name)
+            bundle.putString("user_imgUrl", recipe.user_imgUrl)
+            bundle.putString("created_at", recipe.created_at.toString())
 
             val activity = view!!.context as AppCompatActivity
             val fragment = RecipeFragment()
@@ -97,15 +102,6 @@ class MyRecipesAdapter(private val recipeList: ArrayList<Recipe>, private val co
                         R.id.recipe_popup_delete -> {
                             FirebaseStorage.getInstance().getReferenceFromUrl(recipe.imgUrl!!).delete()
                             db.collection("recipes").document(recipe.id!!).delete()
-                                .addOnSuccessListener {
-                                    recipeList.remove(recipe)
-                                    notifyItemRemoved(position)
-                                    notifyDataSetChanged()
-                                }
-
-
-                            Snackbar.make(viewHolder.binding.root, R.string.recipe_deleted, Snackbar.LENGTH_LONG).show()
-
                         }
                     }
                     return@setOnMenuItemClickListener true

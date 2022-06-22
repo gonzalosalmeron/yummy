@@ -25,6 +25,7 @@ import com.robertlevonyan.components.picker.*
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class UploadActivity : AppCompatActivity() {
 
@@ -156,6 +157,8 @@ class UploadActivity : AppCompatActivity() {
                 "tag" to category,
                 "imgUrl" to imgUrl,
                 "user_email" to getEmail(),
+                "user_name" to getUserName(),
+                "user_imgUrl" to getUserImgUrl(),
                 "created_at" to FieldValue.serverTimestamp()
             )
 
@@ -179,6 +182,8 @@ class UploadActivity : AppCompatActivity() {
                 "tag" to category,
                 "imgUrl" to imgUrl,
                 "user_email" to getEmail(),
+                "user_name" to getUserName(),
+                "user_imgUrl" to getUserImgUrl(),
                 "created_at" to createdAt
             )
 
@@ -234,6 +239,22 @@ class UploadActivity : AppCompatActivity() {
         val email = prefs?.getString("email", null)
 
         return email.toString()
+    }
+
+    /** RECOGE LA IMAGEN DEL USUARIO DE LAS SHARED PREFERENCES */
+    fun getUserImgUrl(): String {
+        val prefs = getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)
+        val imgUrl = prefs?.getString("imgUrl", null)
+
+        return imgUrl.toString()
+    }
+
+    /** RECOGE EL NOMBRE DE LAS SHARED PREFERENCES */
+    fun getUserName(): String {
+        val prefs = getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)
+        val name = prefs?.getString("name", null)
+
+        return name.toString()
     }
 
     /** EN CASO DE QUE VAYAMOS A EDITAR LA RECETA, RECOGE LOS DATOS DE LOS PUTEXTRA */

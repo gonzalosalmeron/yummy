@@ -172,12 +172,4 @@ class BagFragment : Fragment() {
             })
 
     }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        bagsArrayList.clear()
-        Log.i("bagItem", "destroy, ${bagsArrayList}")
-        _binding = null
-    }
 }

@@ -65,7 +65,7 @@
     <string name="recipe_deleted">Recipe deleted</string>
     <string name="yout_dont_have_any_recipe">You don\'t have recipes</string>
     <string name="shopping_list">Shopping list</string>
-    <string name="example_bag">Bag example text</string>
+    <string name="example_bag">Ex. 1kg of potatoes</string>
     <string name="password_min_six">Password must be at least 6</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
@@ -73,4 +73,8 @@
     <string name="close">Close</string>
     <string name="no_items_in_bag">No items in bag</string>
     <string name="recipe_updated">Recipe updated!</string>
+    <string name="add_item">Add new item</string>
+    <string name="date">10/10/10</string>
+    <string name="tag">#Easy</string>
+    <string name="no_recipes_found">No recipes found</string>
 </resources>

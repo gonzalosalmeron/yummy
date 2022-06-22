@@ -39,18 +39,20 @@ class MainActivity : AppCompatActivity() {
         val myBottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_nav)
 
         /** ESTABLECE EL FRAGMENTO POR DEFECTO EN LA BARRA DE NAVEGACIÓN */
-        replaceFragment(HomeFragment)
+        replaceFragment(SearchFragment)
 
         /** DEFINE LAS ACCIONES EN LOS DISTINTOS ELEMENTOS DE LA NAVEGACIÓN */
         myBottomNavigationView.setOnItemSelectedListener { item ->
             when(item.itemId) {
+                /** COMENTO ESTA PARTE PORQUE LA QUIERO AÑADIR EN UN FUTURO
                 R.id.nav_home -> {
                     replaceFragment(HomeFragment)
                     lastItem = 0
                 }
+                 */
                 R.id.nav_search -> {
                     replaceFragment(SearchFragment)
-                    lastItem = 1
+                    lastItem = 0
                 }
                 R.id.nav_upload -> {
                     item.isCheckable = false
@@ -58,11 +60,11 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.nav_bag -> {
                     replaceFragment(BagFragment)
-                    lastItem = 3
+                    lastItem = 2
                 }
                 R.id.nav_profile -> {
                     replaceFragment(ProfileFragment)
-                    lastItem = 4
+                    lastItem = 3
                 }
                 else -> Log.i("hola", "hola")
             }

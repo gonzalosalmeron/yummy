@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.PopupMenu
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager2.widget.ViewPager2
@@ -23,6 +24,7 @@ import com.gonzxlodev.yummy.auth.LoginActivity
 import com.gonzxlodev.yummy.databinding.FragmentProfileBinding
 import com.gonzxlodev.yummy.databinding.ProfileBottomSheetDialogBinding
 import com.gonzxlodev.yummy.main.MainActivity
+import com.gonzxlodev.yummy.main.UploadActivity
 import com.gonzxlodev.yummy.model.Recipe
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -33,6 +35,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.*
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.*
 import java.lang.reflect.Array.newInstance
 import javax.xml.validation.SchemaFactory.newInstance
@@ -84,23 +87,31 @@ class ProfileFragment : Fragment() {
         /** LLAMADA DEL MÉTODO SETUSERPROFILE */
         setUserProfile()
 
-        binding.profileLogoutBtn.setOnClickListener {
-            val prefs = activity?.getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)?.edit()
-            prefs?.clear()
-            prefs?.apply()
+        binding.profileOptionsBtn.setOnClickListener {
+            /** LLAMA AL MENÚ CONTEXTUAL */
+            val showPopUp = PopupMenu(context, it)
+            showPopUp.inflate(R.menu.profile_menu)
+            showPopUp.setOnMenuItemClickListener { item ->
+                when(item.itemId) {
+                    /** SI DAMOS CLICK EN LA OPCIÓN DE CERRAR CIERRA LA SESIÓN
+                     * Y ELIMINA LOS DATOS DEL USUARIO DE SHARED PREFERENCES */
+                    R.id.profile_popup_logout -> {
+                        val prefs = activity?.getSharedPreferences(getString(R.string.prefs_file), Context.MODE_PRIVATE)?.edit()
+                        prefs?.clear()
+                        prefs?.apply()
 
-            goAuth()
+                        goAuth()
 
-            auth.signOut()
-            activity?.finish()
+                        auth.signOut()
+                        activity?.finish()
+                    }
+                }
+                return@setOnMenuItemClickListener true
+            }
+            showPopUp.show()
         }
 
-//        binding.profileOptionsBtn.setOnClickListener {
-//            val bottomSheetFragment: BottomSheetDialogFragment = ProfileBottomSheetDialogBinding
-//            bottomSheetFragment.show(requireFragmentManager(), bottomSheetFragment.tag)
-//        }
-//        binding.profileUserRecipes.text = listAdapter.itemCount.toString()
-//        eventChangeListener()
+        eventChangeListener()
     }
 
 
@@ -137,17 +148,25 @@ class ProfileFragment : Fragment() {
                     }
                     for (dc : DocumentChange in value?.documentChanges!!) {
                         if (dc.type == DocumentChange.Type.ADDED){
-                            recipesArrayList.add(dc.document.toObject(Recipe::class.java));
-                            binding.profileUserRecipes.text = recipesArrayList.size.toString()
+                            var recipe = dc.document.toObject(Recipe::class.java)
+                            recipe.id = dc.document.id
+
+                            /** COMPRUEBA SI LA LA RECETA EXISTE EN EL ARRAY */
+                            if (recipesArrayList.indexOf(recipe) == -1) {
+                                recipesArrayList.add(0, recipe)
+                                binding.profileUserRecipes.text = recipesArrayList.size.toString()
+                            }
                         }
                         if (dc.type == DocumentChange.Type.REMOVED) {
-                            if (recipesArrayList.size > 0) {
-                                binding.profileUserRecipes.text = recipesArrayList.size.toString()
-                                recipesArrayList.removeLast()
-                            } else {
-                                binding.profileUserRecipes.text = "0"
-                            }
+                            var deletedRecipe = dc.document.toObject(Recipe::class.java)
+                            deletedRecipe.id = dc.document.id
 
+                            if (deletedRecipe.id != null) {
+                                if (recipesArrayList.indexOf(deletedRecipe) != -1) {
+                                    recipesArrayList.removeAt(recipesArrayList.indexOf(deletedRecipe))
+                                    checkEmptyArray(recipesArrayList.size)
+                                }
+                            }
                         }
                     }
 
@@ -156,11 +175,12 @@ class ProfileFragment : Fragment() {
 
     }
 
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    fun checkEmptyArray(size: Int){
+        if (size >= 0) {
+            binding.profileUserRecipes.text = recipesArrayList.size.toString()
+        } else {
+            binding.profileUserRecipes.text = "0"
+        }
     }
 
 }

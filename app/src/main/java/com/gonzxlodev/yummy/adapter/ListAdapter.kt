@@ -16,6 +16,7 @@ import com.gonzxlodev.yummy.R
 import com.gonzxlodev.yummy.databinding.RecipeCardBinding
 import com.gonzxlodev.yummy.main.RecipeFragment
 import com.gonzxlodev.yummy.model.Recipe
+import java.time.ZonedDateTime
 
 class ListAdapter(private val recipeList: ArrayList<Recipe>, private val context: Context):
     RecyclerView.Adapter<ListAdapter.ViewHolder>()
@@ -50,6 +51,10 @@ class ListAdapter(private val recipeList: ArrayList<Recipe>, private val context
             bundle.putString("diners", recipe.diners)
             bundle.putString("ingredients", recipe.ingredients)
             bundle.putString("description", recipe.description)
+            bundle.putString("tag", recipe.tag)
+            bundle.putString("user_name", recipe.user_name)
+            bundle.putString("user_imgUrl", recipe.user_imgUrl)
+            bundle.putString("created_at", recipe.created_at.toString())
 
             val activity = view!!.context as AppCompatActivity
             val fragment = RecipeFragment()

@@ -38,7 +38,6 @@ class MyRecipesFragment : Fragment() {
 
     private lateinit var recipesArrayList: ArrayList<Recipe>
     private lateinit var listAdapter: MyRecipesAdapter
-    var isEdited: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -80,13 +79,21 @@ class MyRecipesFragment : Fragment() {
             addItemDecoration(dividerItemDecorationHorizontal)
             addItemDecoration(dividerItemDecorationVertical)
         }
-
+        checkEmptyArray(recipesArrayList.size)
         eventChangeListener()
+    }
+
+    fun checkEmptyArray(size: Int){
+        if(size < 1) {
+            binding.myRecipesNoRecipesBox.visibility = View.VISIBLE
+        } else {
+            binding.myRecipesNoRecipesBox.visibility = View.GONE
+        }
     }
 
     /** LLAMADA A FIREBASE PARA CARGAR LAS RECETAS DEL USUARIO ACTUALMENTE LOGUEADO */
     private fun eventChangeListener() {
-        (activity as MainActivity).db.collection("recipes").orderBy("created_at", Query.Direction.DESCENDING)
+        (activity as MainActivity).db.collection("recipes").orderBy("created_at", Query.Direction.ASCENDING)
             .whereEqualTo("user_email", (activity as MainActivity).getEmail())
             .addSnapshotListener(object: EventListener<QuerySnapshot> {
                 override fun onEvent(value: QuerySnapshot?, error: FirebaseFirestoreException?) {
@@ -99,9 +106,13 @@ class MyRecipesFragment : Fragment() {
                             var recipe = dc.document.toObject(Recipe::class.java)
                             recipe.id = dc.document.id
 
-                            if (recipesArrayList.indexOf(recipe) == -1) recipesArrayList.add(0, recipe)
+                            if (recipesArrayList.indexOf(recipe) == -1) {
+                                recipesArrayList.add(0, recipe)
+                                listAdapter.notifyItemInserted(0)
+                            }
 
-                            listAdapter.notifyItemInserted(0)
+                            checkEmptyArray(recipesArrayList.size)
+
                         }
                         if (dc.type == DocumentChange.Type.MODIFIED) {
                             var newRecipe = dc.document.toObject(Recipe::class.java)
@@ -117,13 +128,19 @@ class MyRecipesFragment : Fragment() {
                                 }
                             }
                         }
-                    }
+                        if (dc.type == DocumentChange.Type.REMOVED) {
+                            var deletedRecipe = dc.document.toObject(Recipe::class.java)
+                            deletedRecipe.id = dc.document.id
 
-                    /** SI NO HAY RECETAS SE MUESTRA UNA IMÁGEN Y TEXTO INDICÁNDOLO */
-                    if(recipesArrayList.size == 0) {
-                        binding.myRecipesNoRecipesBox.visibility = View.VISIBLE
-                    } else {
-                        binding.myRecipesNoRecipesBox.visibility = View.GONE
+                            if (deletedRecipe.id != null) {
+                                if (recipesArrayList.indexOf(deletedRecipe) != -1) {
+                                    Log.i("eliminartest", "${recipesArrayList.indexOf(deletedRecipe)}")
+                                    listAdapter.notifyItemRemoved(recipesArrayList.indexOf(deletedRecipe))
+                                    recipesArrayList.removeAt(recipesArrayList.indexOf(deletedRecipe))
+                                    checkEmptyArray(recipesArrayList.size)
+                                }
+                            }
+                        }
                     }
                 }
             })
