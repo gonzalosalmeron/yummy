@@ -106,4 +106,4 @@ Se puede descargar la documentación en pdf desde [aquí](https://github.com/gon
 - Semana 7 -> Nuevas opciones del registro para poder añadir imagen al perfil
 
 ## Otros repositorios
-[Landing + Angular Admin](https://github.com/gonzalosalmeron/yummy_angular)
+[Landing + Angular Admin + Python](https://github.com/gonzalosalmeron/yummy_angular)
