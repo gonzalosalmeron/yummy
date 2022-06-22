@@ -13,6 +13,7 @@ import com.gonzxlodev.yummy.main.MainActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
@@ -43,6 +44,9 @@ class LoginActivity : AppCompatActivity() {
             val googleClient = GoogleSignIn.getClient(this, googleConf)
             googleClient.signOut()
             startActivityForResult(googleClient.signInIntent, GOOGLE_SIGN_IN)
+        }
+        binding.lgnFacebookBtn.setOnClickListener {
+            Snackbar.make(binding.root, R.string.under_development, Snackbar.LENGTH_LONG).show()
         }
 
         /** INICIALIZA FIREBASE AUTH */

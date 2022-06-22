@@ -15,6 +15,7 @@ import com.gonzxlodev.yummy.databinding.ActivityMainBinding
 import com.gonzxlodev.yummy.main.profile.ProfileFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.fragment_home.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -97,6 +98,7 @@ class MainActivity : AppCompatActivity() {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.nav_container, fragment)
         transaction.commit()
+        this.invalidateOptionsMenu()
     }
 
     private fun uploadActivity() {

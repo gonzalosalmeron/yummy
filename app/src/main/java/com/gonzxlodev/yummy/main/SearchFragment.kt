@@ -57,17 +57,8 @@ class SearchFragment : Fragment() {
             adapter = listAdapter
         }
         eventChangeListener()
-//        binding.homeSearchView.setlis {
-//            if (tempArray.size == 0) {
-//                binding.searchNoRecipesBox.visibility = View.VISIBLE
-//            } else {
-//                binding.searchNoRecipesBox.visibility = View.GONE
-//            }
-//        }
-        binding.homeSearchView.setOnCloseListener {
-            Log.i("cerrar", "hola")
-            true
-        }
+
+
         binding.homeSearchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextChange(newText: String): Boolean {
                 tempArray.clear()
@@ -91,6 +82,7 @@ class SearchFragment : Fragment() {
 
                 return true
             }
+
 
             override fun onQueryTextSubmit(query: String): Boolean {
                 recipesArrayList.filter { recipe ->
@@ -156,5 +148,12 @@ class SearchFragment : Fragment() {
                 }
 
             })
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        
+        home_search_view.setQuery("", false)
+        (activity as MainActivity).invalidateOptionsMenu()
     }
 }

@@ -1,6 +1,5 @@
 package com.gonzxlodev.yummy.main
 
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -8,7 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.view.animation.Animation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gonzxlodev.yummy.R
 import com.gonzxlodev.yummy.adapter.BagAdapter
@@ -20,7 +19,6 @@ import com.google.firebase.firestore.*
 import com.google.firebase.firestore.EventListener
 import kotlinx.android.synthetic.main.bag_dialog.view.*
 import kotlinx.android.synthetic.main.fragment_bag.*
-import java.lang.reflect.Array
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -95,6 +93,8 @@ class BagFragment : Fragment() {
             }
         }
 
+        checkEmptyArray(bagsArrayList.size)
+
     }
 
     // ESTE MÉTODO ELIMINA LA VISTA HIJO (LA VISTA INFLADA EN EL DIALOG)
@@ -125,6 +125,19 @@ class BagFragment : Fragment() {
 
     }
 
+    /** COMPRUEBA LA LONGITUD DEL ARRAY Y SI ESTÁ VACÍO MUESTRA UNA MENSAJE */
+    fun checkEmptyArray(size: Int){
+        Log.i("hola2", "${bagsArrayList.size}")
+        if(size < 1) {
+            bag_animation.setAnimation(R.raw.animation_empty_bag)
+            bag_animation.repeatCount = Animation.INFINITE
+            bag_animation.playAnimation()
+            bag_no_items_box.visibility = View.VISIBLE
+        } else {
+            bag_no_items_box.visibility = View.GONE
+        }
+    }
+
     /** ELIMINA LOS ALIMENTOS MARCADOS COMO COMPLETADOS */
     private fun deleteBags() {
         /** UTILIZAMOS UN BATCH PARA MANDAR UNA ÚNICA PETICIÓN
@@ -136,6 +149,7 @@ class BagFragment : Fragment() {
             bagsArrayList.remove(it)
         }
         bagAdapter.notifyDataSetChanged()
+        checkEmptyArray(bagsArrayList.size)
 
         batch.commit()
 
@@ -158,9 +172,12 @@ class BagFragment : Fragment() {
                             var bag = dc.document.toObject(Bag::class.java)
                             bag.id = dc.document.id
 
-                            if (bagsArrayList.indexOf(bag) == -1) bagsArrayList.add(bag)
+                            if (bagsArrayList.indexOf(bag) == -1){
+                                bagsArrayList.add(bag)
+                                bagAdapter.notifyItemInserted(bagsArrayList.size)
+                                checkEmptyArray(bagsArrayList.size)
+                            }
 
-                            bagAdapter.notifyItemInserted(bagsArrayList.size)
                         }
                     }
 //                    if(bagsArrayList.size == 0) {

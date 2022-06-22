@@ -1,33 +1,23 @@
 package com.gonzxlodev.yummy.main.profile
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.GridLayout.HORIZONTAL
-import android.widget.GridLayout.VERTICAL
-import android.widget.PopupMenu
-import android.widget.TextView
-import android.widget.Toast
+import android.view.animation.Animation
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import com.gonzxlodev.yummy.R
-import com.gonzxlodev.yummy.adapter.ListAdapter
 import com.gonzxlodev.yummy.adapter.MyRecipesAdapter
 import com.gonzxlodev.yummy.databinding.FragmentMyRecipesBinding
 import com.gonzxlodev.yummy.model.Recipe
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.firestore.*
 import kotlinx.android.synthetic.main.fragment_my_recipes.*
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.gonzxlodev.yummy.databinding.FragmentProfileBinding
 import com.gonzxlodev.yummy.main.MainActivity
-import org.w3c.dom.Text
-import androidx.fragment.app.FragmentManager
 
 
 class MyRecipesFragment : Fragment() {
@@ -83,8 +73,13 @@ class MyRecipesFragment : Fragment() {
         eventChangeListener()
     }
 
+
+    /** COMPRUEBA LA LONGITUD DEL ARRAY Y SI ESTÁ VACÍO MUESTRA UNA MENSAJE */
     fun checkEmptyArray(size: Int){
         if(size < 1) {
+            binding.myRecipesNoRecipes.setAnimation(R.raw.animation_no_recipes)
+            binding.myRecipesNoRecipes.repeatCount = Animation.INFINITE
+            binding.myRecipesNoRecipes.playAnimation()
             binding.myRecipesNoRecipesBox.visibility = View.VISIBLE
         } else {
             binding.myRecipesNoRecipesBox.visibility = View.GONE

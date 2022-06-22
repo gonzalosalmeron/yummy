@@ -42,7 +42,7 @@
         <entry key="app/src/main/res/layout/bottom_create_recipe_sheet.xml" value="0.184375" />
         <entry key="app/src/main/res/layout/content_detail.xml" value="0.22780797101449277" />
         <entry key="app/src/main/res/layout/custom_dialog.xml" value="0.20425724637681159" />
-        <entry key="app/src/main/res/layout/fragment_bag.xml" value="0.28904665314401623" />
+        <entry key="app/src/main/res/layout/fragment_bag.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_blank.xml" value="0.19791666666666666" />
         <entry key="app/src/main/res/layout/fragment_detail.xml" value="0.22780797101449277" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.28849238000020216" />

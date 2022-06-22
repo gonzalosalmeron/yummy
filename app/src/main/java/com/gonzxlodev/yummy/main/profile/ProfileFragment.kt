@@ -124,10 +124,16 @@ class ProfileFragment : Fragment() {
         val imgUrl = prefs?.getString("imgUrl", null)
 
         binding.profileUserName.text = name
-        Glide.with(context!!)
-            .load(imgUrl)
-            .skipMemoryCache(true)
-            .into(binding.profileUserImage)
+        if (imgUrl != null) {
+            Glide.with(context!!)
+                .load(imgUrl)
+                .skipMemoryCache(true)
+                .into(binding.profileUserImage)
+        }
+//        Glide.with(context!!)
+//            .load(imgUrl)
+//            .skipMemoryCache(true)
+//            .into(binding.profileUserImage)
     }
 
     /** SI HACEMOS LOGOUT NOS LLEVA DE VUELTA A LA ACTIVIDAD DE AUTH */

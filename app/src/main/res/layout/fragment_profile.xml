@@ -20,7 +20,7 @@
 <!--    USER PROFILE IMG-->
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/profile_user_image"
-        android:src="@mipmap/ic_launcher"
+        android:src="@drawable/logo_yummy"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_marginTop="40dp"

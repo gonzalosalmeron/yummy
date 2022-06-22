@@ -57,7 +57,7 @@
     <string name="yout_dont_have_any_recipe">No tienes recetas</string>
     <string name="shopping_list">Lista de la compra</string>
     <string name="example_bag">Ej. 1kg de patatas</string>
-    <string name="password_min_six">La contraseña tiene que tener un mínimo de 6 carácteres</string>
+    <string name="password_min_six">La contraseña debe tener 6 carácteres</string>
     <string name="save">Guardar</string>
     <string name="cancel">Cancelar</string>
     <string name="create">Crear</string>
@@ -67,4 +67,5 @@
     <string name="add_item">Añade un nuevo producto</string>
     <string name="tag">#Fácil</string>
     <string name="no_recipes_found">No se han encontrado recetas</string>
+    <string name="under_development">En desarrollo</string>
 </resources>

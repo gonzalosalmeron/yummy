@@ -77,4 +77,5 @@
     <string name="date" translatable="false">10/10/10</string>
     <string name="tag">#Easy</string>
     <string name="no_recipes_found">No recipes found</string>
+    <string name="under_development">Under development</string>
 </resources>

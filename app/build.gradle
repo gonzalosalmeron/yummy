@@ -73,4 +73,6 @@ dependencies {
      */
     implementation 'com.jpardogo.googleprogressbar:library:1.2.0' /** progress bar */
     implementation("com.robertlevonyan.components:Picker:2.2.3") /** image picker */
+    implementation 'com.airbnb.android:lottie:5.2.0' /** animations */
+
 }

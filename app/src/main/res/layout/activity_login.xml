@@ -102,8 +102,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/transparent"
-            android:inputType="textEmailAddress"
-            android:text="pepe@pepe.com" />
+            android:inputType="textEmailAddress" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -125,7 +124,6 @@
             android:layout_height="wrap_content"
             android:background="@color/transparent"
             android:inputType="textPassword"
-            android:text="secret"
             />
     </com.google.android.material.textfield.TextInputLayout>
 
