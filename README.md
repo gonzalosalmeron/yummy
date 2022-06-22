@@ -8,7 +8,7 @@
 
 ## 👀 Qué es Yummy?
 Yummy es una red social de recetas en la que podrás crear y compartir nuevas con tus amigos para satisfacer la necesidad de todos aquellos que necesitan ideas en el día a día para sus comidas. Yummy también incorpora una lista de compra para que no te olvides de echar al carro de la compra todo lo que necesites. Podrás guardar en favoritos las recetas que más te gusten para siempre tenerlas al alcance
-###### (Este ultimo apartado está en desarrollo) <a href="https://youtu.be/CGdkBg0QYNQ">Ver video</a>
+###### (Este ultimo apartado está en desarrollo) <a href="https://youtu.be/k5EtNHYFopM">Ver video</a>
 
 ------
 
