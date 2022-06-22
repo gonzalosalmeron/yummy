@@ -47,4 +47,24 @@
     <string name="add_tag">Añade un tag</string>
     <string name="select_from">Elegir desde</string>
     <string name="my_recipes">Mis recetas</string>
+    <string name="auth_text">Estás a un paso de sacar el máximo partido a <b>yummy</b>. No te costará nada!</string>
+    <string name="edit">Editar</string>
+    <string name="delete">Eliminar</string>
+    <string name="sign_out">Cerrar sesión</string>
+    <string name="ups_something_failed">Uups algo ha fallado</string>
+    <string name="fill_the_camps">Por favor, rellena los campos</string>
+    <string name="recipe_deleted">Receta eliminada</string>
+    <string name="yout_dont_have_any_recipe">No tienes recetas</string>
+    <string name="shopping_list">Lista de la compra</string>
+    <string name="example_bag">Ej. 1kg de patatas</string>
+    <string name="password_min_six">La contraseña tiene que tener un mínimo de 6 carácteres</string>
+    <string name="save">Guardar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="create">Crear</string>
+    <string name="close">Cerrar</string>
+    <string name="no_items_in_bag">No tienes productos en la bolsa</string>
+    <string name="recipe_updated">Receta actualizada!</string>
+    <string name="add_item">Añade un nuevo producto</string>
+    <string name="tag">#Fácil</string>
+    <string name="no_recipes_found">No se han encontrado recetas</string>
 </resources>

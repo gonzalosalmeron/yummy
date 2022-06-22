@@ -5,7 +5,7 @@
     <string name="reg_facebook">Register with Facebook</string>
     <string name="reg_email">Register with your Email</string>
     <string name="already_registered">Already registered?</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main" translatable="false">MainActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
@@ -74,7 +74,7 @@
     <string name="no_items_in_bag">No items in bag</string>
     <string name="recipe_updated">Recipe updated!</string>
     <string name="add_item">Add new item</string>
-    <string name="date">10/10/10</string>
+    <string name="date" translatable="false">10/10/10</string>
     <string name="tag">#Easy</string>
     <string name="no_recipes_found">No recipes found</string>
 </resources>
