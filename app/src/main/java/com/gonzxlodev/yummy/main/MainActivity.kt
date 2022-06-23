@@ -98,7 +98,6 @@ class MainActivity : AppCompatActivity() {
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.nav_container, fragment)
         transaction.commit()
-        this.invalidateOptionsMenu()
     }
 
     private fun uploadActivity() {

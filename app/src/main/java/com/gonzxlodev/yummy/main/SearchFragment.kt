@@ -152,8 +152,11 @@ class SearchFragment : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        
-        home_search_view.setQuery("", false)
-        (activity as MainActivity).invalidateOptionsMenu()
+
+        if (home_search_view.query != null){
+            home_search_view.setQuery("", false)
+            (activity as MainActivity).invalidateOptionsMenu()
+        }
+
     }
 }

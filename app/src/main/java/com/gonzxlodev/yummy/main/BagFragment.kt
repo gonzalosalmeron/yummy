@@ -107,7 +107,6 @@ class BagFragment : Fragment() {
 
     /** AÑADE UN ALIMENTO A LA BOLSA Y LO SUBE A FIREBASE */
     private fun createBag() {
-//        Log.i("bagItem", "${dataBag}")
         (activity as MainActivity).db.collection("bags").add(
             hashMapOf(
                 "name" to dataBag,

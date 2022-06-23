@@ -59,9 +59,6 @@ class RecipeFragment : Fragment() {
         return view
     }
 
-    override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(itemView, savedInstanceState)
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()
