@@ -116,7 +116,7 @@ class BagFragment : Fragment() {
             )
 
         ).addOnSuccessListener { taskSnapshot ->
-            Snackbar.make(view as View, "Bag Item Uploaded!", Snackbar.LENGTH_LONG)
+            Snackbar.make(view as View, R.string.item_uploaded, Snackbar.LENGTH_LONG)
                 .setAction(R.string.close) { /** NOTHING */ }
                 .setActionTextColor(resources.getColor(R.color.yummy_purple, null))
                 .show()
@@ -149,7 +149,10 @@ class BagFragment : Fragment() {
         }
         bagAdapter.notifyDataSetChanged()
         checkEmptyArray(bagsArrayList.size)
-
+        Snackbar.make(view as View, R.string.items_deleted, Snackbar.LENGTH_LONG)
+            .setAction(R.string.close) { /** NOTHING */ }
+            .setActionTextColor(resources.getColor(R.color.yummy_purple, null))
+            .show()
         batch.commit()
 
     }

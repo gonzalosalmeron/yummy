@@ -78,4 +78,6 @@
     <string name="tag">#Easy</string>
     <string name="no_recipes_found">No recipes found</string>
     <string name="under_development">Under development</string>
+    <string name="item_uploaded">Bag item saved!</string>
+    <string name="items_deleted">Items deleted!</string>
 </resources>

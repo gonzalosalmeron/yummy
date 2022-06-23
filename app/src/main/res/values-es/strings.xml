@@ -68,4 +68,6 @@
     <string name="tag">#Fácil</string>
     <string name="no_recipes_found">No se han encontrado recetas</string>
     <string name="under_development">En desarrollo</string>
+    <string name="item_uploaded">Producto añadido!</string>
+    <string name="items_deleted">Producto/s eliminado/s!</string>
 </resources>
